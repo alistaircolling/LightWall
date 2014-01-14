@@ -38,7 +38,7 @@ public class MyExtraWindow extends ExtraWindow {
 		super(theApplet, theName, theWidth, theHeight);
 		// initWin();
 
-		setupVectors();
+		// setupVectors();
 
 	}
 
@@ -114,39 +114,71 @@ public class MyExtraWindow extends ExtraWindow {
 		sex[60] = new Vec2D(17, 7);
 
 	}
-	
+
 	PImage[] animation;
+	private int rgbCount;
 
 	public void setup() {
 		size(350, 300);
-		frameRate(10);
+		frameRate(20);
 		// colorMode(HSB, 50, 100, 100);
 		// letterCount = 0;
-		loopingGif = new GifAnimation(this, "ghostAnim.gif");
-		loopingGif.loop();
-		animation = Gif.getPImages(this, "ghostAnim.gif");
-		
+		// loopingGif = new GifAnimation(this, "ghostAnim.gif");
+		// loopingGif.loop();
+		// animation = Gif.getPImages(this, "ghostAnim.gif");
+
 	}
 
 	public void draw() {
+
 		
-		background(20);
-		image(loopingGif, 0, 0);//,;// height / 2 - loopingGif.height / 2);
-		
-//		Vec2D thePoint;
-//
-//		thePoint = sex[letterCount];
-//		 point(thePoint.x, thePoint.y);
-//	//	rect(0, 0, 100, 100);
-//		if (letterCount < 60) {
-//			letterCount++;
-//		} else {
-//			
-//			background(TColor.newRandom().toARGB());
-//			stroke(TColor.newRandom().toARGB());
-//			letterCount = 0;
-//
-//		}
+		if (randomCol > 500) {
+			randomCol = 0;
+		} else {
+			if (randomCol % 100 == 0) {
+				rgbCount = randomCol / 100;
+			}
+		}
+		switch (rgbCount) {
+		case 0:
+			background(255, 0, 0);
+			break;
+		case 1:
+			background(0, 255, 0);
+			break;
+		case 2:
+			background(0, 0, 255);
+			break;
+		case 3:
+			background(255, 255, 255);
+			break;
+		case 4:
+			background(0, 0, 0);
+			break;
+		case 5:
+			background(255, 0, 0);
+			break;
+		default:
+			break;
+		}
+		randomCol++;
+
+		// image(loopingGif, 0, 0);//,;// height / 2 - loopingGif.height / 2);
+
+		// Vec2D thePoint;
+		//
+		// thePoint = sex[letterCount];
+		// point(thePoint.x, thePoint.y);
+		// // rect(0, 0, 100, 100);
+		// if (letterCount < 60) {
+		// letterCount++;
+		// } else {
+		//
+		// background(TColor.newRandom().toARGB());
+		// stroke(TColor.newRandom().toARGB());
+		// letterCount = 0;
+		//
+		// }
 
 	}
 
