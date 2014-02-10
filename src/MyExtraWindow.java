@@ -117,51 +117,37 @@ public class MyExtraWindow extends ExtraWindow {
 
 	PImage[] animation;
 	private int rgbCount;
+	private PImage a;
+	private int heartSize;
+	private int maxHearts;
+	
 
 	public void setup() {
 		size(350, 300);
-		frameRate(20);
+
+		frameRate(2);
+		a = loadImage("heart.gif");
+		heartSize = 3;
+		maxHearts = 30;
+		//noLoop();
 		// colorMode(HSB, 50, 100, 100);
 		// letterCount = 0;
-		// loopingGif = new GifAnimation(this, "ghostAnim.gif");
+		// loopingGif = new GifAnimation(this, "ryann.gif");
 		// loopingGif.loop();
 		// animation = Gif.getPImages(this, "ghostAnim.gif");
 
 	}
 
 	public void draw() {
-
+		if (heartSize>maxHearts) heartSize = 3;
+		for(int i=0; i<heartSize; i++){
+			
+			drawHeart(i);
+			
+		}
+		heartSize+=2;
 		
-		if (randomCol > 500) {
-			randomCol = 0;
-		} else {
-			if (randomCol % 100 == 0) {
-				rgbCount = randomCol / 100;
-			}
-		}
-		switch (rgbCount) {
-		case 0:
-			background(255, 0, 0);
-			break;
-		case 1:
-			background(0, 255, 0);
-			break;
-		case 2:
-			background(0, 0, 255);
-			break;
-		case 3:
-			background(255, 255, 255);
-			break;
-		case 4:
-			background(0, 0, 0);
-			break;
-		case 5:
-			background(255, 0, 0);
-			break;
-		default:
-			break;
-		}
-		randomCol++;
+		
 
 		// image(loopingGif, 0, 0);//,;// height / 2 - loopingGif.height / 2);
 
@@ -180,6 +166,21 @@ public class MyExtraWindow extends ExtraWindow {
 		//
 		// }
 
+	}
+
+	private void drawHeart(int i) {
+		
+		// heartsize id the ints
+		//get the xpos
+		int xPos = (16-i)/2;
+		int yPos = (24-i)/2;
+		
+		background(200);
+		image(a, xPos, yPos, a.width, a.width);
+		
+			
+		
+		
 	}
 
 	private void drawTrail() {
