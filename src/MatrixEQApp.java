@@ -65,24 +65,28 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	LEDMatrix matrix;
 
 	
+	
+	
 	void loadDefaultMatrix() {
+		System.out.println("load default matrix");
 		String tmpResult = matrix
-				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+			//	.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 				
-		//		.loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+				.loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
 		}
-		System.out.println(tmpResult);
+		System.out.println("LOAding..");
 	}
 
 	void matrixSetup() {
+		System.out.println("matrix Setup..");
 		matrix = new LEDMatrix(MATRIX_COLS, MATRIX_ROWS, 24, 24, 1);
 		loadDefaultMatrix();
 
 		// -- TO CONNECT --->>>
-	//    matrix.connectToController();
+	    matrix.connectToController();
 
 		matrix.refresh();
 		matrix.emulatorDelay = 20;
@@ -215,6 +219,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 			}
 			if (eqPos[i] > 0 && eqFallDelayPos == 0) {
 				eqPos[i] = eqPos[i] - 1;
+				
 			}
 		}
 		matrix.refresh();

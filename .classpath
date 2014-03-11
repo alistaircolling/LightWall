@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/matrix_setup.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibscore.jar"/>
 	<classpathentry kind="lib" path="lib/gifAnimation.jar"/>
+	<classpathentry kind="lib" path="lib/verletphysics.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
