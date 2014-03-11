@@ -359,16 +359,10 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	}
 //this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
-		System.out.println("setup websocket server");
-		try {
-			System.out.println("about to create chat server");
-			chatServer = new ChatServer(8887);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			System.out.println("unable to launch websocket server");
-			e.printStackTrace();
-		}
-		
+	
+			chatServer = new ChatServer(8885);
+			chatServer.main(null);
+	
 		
 	}
 
@@ -377,6 +371,9 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		timer.schedule(loadFromCanvasTask, 0, // initial delay
 				100);
 	}
+	
+	
+	///////CHAT SERVER /////////
 
 	class LoadFromCanvasTask extends TimerTask {
 		public void run() {
