@@ -2,33 +2,29 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import processing.core.PApplet;
+import toxi.color.TColor;
 
 import com.hookedup.led.LEDMatrix;
 import com.hookedup.processing.EQLevels;
-import com.hookedup.processing.ExtraWindow;
 import com.hookedup.processing.ProcessingAppLauncherMinim;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JTextField;
-
-public class MatrixEQApp extends BaseSwingFrameApp {
+public class LightWall extends BaseSwingFrameApp {
 	Minim minim;
 	AudioPlayer song;
 	LoadFromCanvasTask loadFromCanvasTask = new LoadFromCanvasTask();
@@ -64,6 +60,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	int MATRIX_COLS = 16;
 	int MATRIX_ROWS = 25;
 	LEDMatrix matrix;
+	private KinectController kinectController;
 
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
@@ -103,10 +100,12 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 
 		eqPos = new int[200];
 //TODO uncomment before running properly!
-	//	setupTimer();
+		setupTimer();
+		
 
 	}
 
+	
 	int constrain(int theValue, int theMin, int theMax) {
 		int retVal = theValue;
 		if (retVal < theMin) {
@@ -260,7 +259,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 					// ProcessingAppLauncher();
 					// NOTE: Using Minim version
 					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
-					procLaunch.launch("MatrixEQApp");
+					procLaunch.launch("LightWall");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -279,7 +278,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	/**
 	 * Create the frame.
 	 */
-	public MatrixEQApp() {
+	public LightWall() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
