@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,8 +21,10 @@ import com.hookedup.processing.ProcessingAppLauncherMinim;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JTextField;
 
 public class MatrixEQApp extends BaseSwingFrameApp {
@@ -98,8 +101,8 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		matrix.ui.setVisible(true);
 
 		eqPos = new int[200];
-
-		setupTimer();
+//TODO uncomment before running properly!
+	//	setupTimer();
 
 	}
 
@@ -240,6 +243,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 
 	private JPanel contentPane;
 	private JTextField txtSongName;
+	private ChatServer chatServer;
 
 	/**
 	 * Launch the application.
@@ -339,9 +343,23 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		txtSongName.setColumns(10);
 
 		setupExtraWindow();
+		setupServer();
 
 		// moved -- matrixSetup();
 
+	}
+//this is used for websocket connections
+	private void setupServer() {
+		System.out.println("setup websocket server");
+		try {
+			chatServer = new ChatServer(8887);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			System.out.println("unable to launch websocket server");
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	void setupTimer() {
