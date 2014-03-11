@@ -30,9 +30,9 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	LoadFromCanvasTask loadFromCanvasTask = new LoadFromCanvasTask();
 
 	Timer timer;
-	
-	//ExtraWindow win;
-	MyExtraWindow win;
+
+	// ExtraWindow win;
+	DropsWindow win;
 
 	// --- music fun
 	EQLevels eq;
@@ -46,10 +46,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	int eqFallDelayPos = 0;
 	int eqFallDelayAt = 12;
 	int musicTop = 400;
-	
-	
 
-	
 	float eqInputAdj = (float) .00;
 	int eqLeftOffset = 1;
 	int eqRightOffset = 3;
@@ -64,44 +61,47 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	int MATRIX_ROWS = 25;
 	LEDMatrix matrix;
 
-	
-	
-	
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-			//	.loadMatrixFile("/Users/acolling/Desktop/default.xml");
-				
-				.loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+
+		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
 		}
-		System.out.println("LOAding..");
+		System.out.println("Loading..");
 	}
 
 	void matrixSetup() {
 		System.out.println("matrix Setup..");
 		matrix = new LEDMatrix(MATRIX_COLS, MATRIX_ROWS, 24, 24, 1);
 		loadDefaultMatrix();
-
+//		try {
+//			matrix.disconnectFromController();
+//			System.out.println("disconnected from controller");
+//		} catch (Error e) {
+//			System.out
+//					.println("error trying to disconnect from controller before conencting....");
+//			System.out.println("maybe it wasnt connected?");
+//		}
 		// -- TO CONNECT --->>>
-	    matrix.connectToController();
+		// matrix.connectToController();
 
 		matrix.refresh();
+
 		matrix.emulatorDelay = 20;
-		matrix.ui.setLocation(this.getLocation().x + this.getWidth(), this
-				.getLocation().y);
+		matrix.ui.setLocation(this.getLocation().x + this.getWidth(),
+				this.getLocation().y);
 
 		matrix.ui.setVisible(true);
 
 		eqPos = new int[200];
-		
+
 		setupTimer();
 
 	}
-
-	
 
 	int constrain(int theValue, int theMin, int theMax) {
 		int retVal = theValue;
@@ -125,13 +125,13 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 			for (int iW = 0; iW < matrix.cols(); iW++) {
 				int cp = win.get((iW), (iH));
 				int rr = (int) proc.red(cp);
-				int red = (int) proc.red(cp) ;
+				int red = (int) proc.red(cp);
 				int green = (int) proc.green(cp);
-				int blue = (int) proc.blue(cp) ;
-				
-			//	win.logIt(iW+":"+iH+"red:"+rr+" green:"+green);
-			//	matrix.setRGB(iW, iH, (int) (proc.red(cp) * 255), (int) (proc
-				//		.green(cp) * 255), (int) (proc.blue(cp) * 255));
+				int blue = (int) proc.blue(cp);
+
+				// win.logIt(iW+":"+iH+"red:"+rr+" green:"+green);
+				// matrix.setRGB(iW, iH, (int) (proc.red(cp) * 255), (int) (proc
+				// .green(cp) * 255), (int) (proc.blue(cp) * 255));
 				matrix.setRGB(iW, iH, red, green, blue);
 			}
 		}
@@ -139,10 +139,10 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	}
 
 	void setupExtraWindow() {
-		win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-	//	win = new DropsWindow(proc, "Matrix Setup", 500, 300);
-		//win.setVisible(false);
-		
+	//	win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
+		 win = new DropsWindow(proc, "Matrix Setup", 500, 300);
+		// win.setVisible(false);
+
 		matrixSetup();
 	}
 
@@ -201,9 +201,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 					rb = tmpBackColor.getRed(); // (int)red(tmpBackColor);
 					gb = tmpBackColor.getGreen(); // (int)green(tmpBackColor);
 					bb = tmpBackColor.getBlue(); // (int)blue(tmpBackColor);
-					matrix
-							.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 1, rb, gb,
-									bb);
+					matrix.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 1, rb, gb, bb);
 				}
 				if (MATRIX_ROWS - 1 - eqPos[i] - 2 > 0) {
 					tmpBack = Color.HSBtoRGB(tColor, (float) .7,
@@ -212,14 +210,12 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 					rb = tmpBackColor.getRed(); // (int)red(tmpBackColor);
 					gb = tmpBackColor.getGreen(); // (int)green(tmpBackColor);
 					bb = tmpBackColor.getBlue(); // (int)blue(tmpBackColor);
-					matrix
-							.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 2, rb, gb,
-									bb);
+					matrix.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 2, rb, gb, bb);
 				}
 			}
 			if (eqPos[i] > 0 && eqFallDelayPos == 0) {
 				eqPos[i] = eqPos[i] - 1;
-				
+
 			}
 		}
 		matrix.refresh();
@@ -272,7 +268,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 			System.out.print("NULL");
 		} else {
 			System.out.print("ACTIVE");
-		}				
+		}
 	}
 
 	/**
@@ -302,7 +298,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	//	setContentPane(contentPane);
+		// setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnDemo = new JButton("Demo 1");
@@ -343,10 +339,9 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		txtSongName.setColumns(10);
 
 		setupExtraWindow();
-		
-		//moved -- matrixSetup();
-		
-		
+
+		// moved -- matrixSetup();
+
 	}
 
 	void setupTimer() {
@@ -357,10 +352,10 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 
 	class LoadFromCanvasTask extends TimerTask {
 		public void run() {
-		while(true){
-			loadFromCanvas();
-		}
-	
+			while (true) {
+				loadFromCanvas();
+			}
+
 		}
 	}
 }
