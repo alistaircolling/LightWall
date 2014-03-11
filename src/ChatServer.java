@@ -16,8 +16,27 @@ import org.java_websocket.server.WebSocketServer;
  */
 public class ChatServer extends WebSocketServer {
 
-	public ChatServer( int port ) throws UnknownHostException {
+	public ChatServer( int port ) throws InterruptedException, IOException {
 		super( new InetSocketAddress( port ) );
+		WebSocketImpl.DEBUG = true;
+	
+		ChatServer s = new ChatServer( port );
+		s.start();
+		System.out.println( "ChatServer started on port: " + s.getPort() );
+
+		BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
+		while ( true ) {
+			String in = sysin.readLine();
+			s.sendToAll( in );
+			if( in.equals( "exit" ) ) {
+				s.stop();
+				break;
+			} else if( in.equals( "restart" ) ) {
+				s.stop();
+				s.start();
+				break;
+			}
+		}
 	}
 
 	public ChatServer( InetSocketAddress address ) {
@@ -48,6 +67,7 @@ public class ChatServer extends WebSocketServer {
 	}
 
 	public static void main( String[] args ) throws InterruptedException , IOException {
+	//public void init() throws InterruptedException, IOException{	
 		WebSocketImpl.DEBUG = true;
 		int port = 8887; // 843 flash policy port
 		try {

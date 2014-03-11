@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -343,15 +344,24 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 		txtSongName.setColumns(10);
 
 		setupExtraWindow();
-		setupServer();
+		try {
+			setupServer();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// moved -- matrixSetup();
 
 	}
 //this is used for websocket connections
-	private void setupServer() {
+	private void setupServer() throws InterruptedException, IOException {
 		System.out.println("setup websocket server");
 		try {
+			System.out.println("about to create chat server");
 			chatServer = new ChatServer(8887);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
