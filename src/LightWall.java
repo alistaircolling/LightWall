@@ -69,7 +69,6 @@ public class LightWall extends BaseSwingFrameApp {
 
 		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
-			// System.out.println("File Loaded.");
 			return;
 		}
 		System.out.println("Loading..");
@@ -79,14 +78,14 @@ public class LightWall extends BaseSwingFrameApp {
 		System.out.println("matrix Setup..");
 		matrix = new LEDMatrix(MATRIX_COLS, MATRIX_ROWS, 24, 24, 1);
 		loadDefaultMatrix();
-//		try {
-//			matrix.disconnectFromController();
-//			System.out.println("disconnected from controller");
-//		} catch (Error e) {
-//			System.out
-//					.println("error trying to disconnect from controller before conencting....");
-//			System.out.println("maybe it wasnt connected?");
-//		}
+/*		try {
+			matrix.disconnectFromController();
+			System.out.println("disconnected from controller");
+		} catch (Error e) {
+			System.out
+					.println("error trying to disconnect from controller before conencting....");
+			System.out.println("maybe it wasnt connected?");
+		}*/
 		// -- TO CONNECT --->>>
 		// matrix.connectToController();
 
@@ -98,31 +97,13 @@ public class LightWall extends BaseSwingFrameApp {
 
 		matrix.ui.setVisible(true);
 
-		eqPos = new int[200];
-//TODO uncomment before running properly!
 		setupTimer();
 		
 
 	}
 
 	
-	int constrain(int theValue, int theMin, int theMax) {
-		int retVal = theValue;
-		if (retVal < theMin) {
-			retVal = theMin;
-		} else if (retVal > theMax) {
-			retVal = theMax;
-		}
-		return retVal;
-	}
-
-	void incrFallDelay() {
-		eqFallDelayPos++;
-		if (eqFallDelayPos > eqFallDelayAt) {
-			eqFallDelayPos = 0;
-		}
-	}
-
+	//  iterates through the processing window and sets the same colors on the marix
 	void loadFromCanvas() {
 		for (int iH = 0; iH < matrix.rows(); iH++) {
 			for (int iW = 0; iW < matrix.cols(); iW++) {

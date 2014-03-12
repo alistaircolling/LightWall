@@ -105,6 +105,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 	 */
 	public WebSocketServer( InetSocketAddress address ) {
 		this( address, DECODERS, null );
+		System.out.println("address:"+address.toString());
 	}
 
 	/**
