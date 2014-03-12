@@ -1,29 +1,29 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import toxi.color.TColor;
-import toxi.geom.Rect;
-import toxi.geom.Vec2D;
-import toxi.physics2d.VerletParticle2D;
-import toxi.physics2d.VerletPhysics2D;
-import toxi.physics2d.VerletSpring2D;
-import toxi.physics2d.behaviors.AttractionBehavior;
 
-public class BaicKinectApplet extends PApplet {
+import com.hookedup.processing.ExtraWindow;
+
+public class BasicKinectApplet extends ExtraWindow {
 
 	private Kinect kinect;
 	private float[] depthLookUp;
 	
 	private int threshold = 500;
 
+	
+	public BasicKinectApplet(PApplet theApplet, String theName, int theWidth,
+			int theHeight) {
+		super(theApplet, theName, theWidth, theHeight);
+		// initWin();
+	}
+	
 	public void setup() {
-		size(640, 480, OPENGL);
-		println("hi hi hi!");
+	//	size(640, 480, OPENGL);
+		println("BasicKinectApplet setup");
 		createLookupTable();
 		kinect = new Kinect(this);
 		kinect.start();
@@ -51,7 +51,7 @@ public class BaicKinectApplet extends PApplet {
 	public void draw() {
 		background(0);
 		PImage img = kinect.getVideoImage();
-		// image(img, 0, 0);
+		 image(img, 0, 0);
 		drawPoints();
 
 	}

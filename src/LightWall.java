@@ -33,7 +33,7 @@ public class LightWall extends BaseSwingFrameApp {
 	Timer timer;
 
 	// ExtraWindow win;
-	DropsWindow win;
+	PApplet win;
 
 	// --- added for matrix
 	int MATRIX_COLS = 16;
@@ -77,7 +77,7 @@ public class LightWall extends BaseSwingFrameApp {
 		// setup the controller to connect to
 		matrixSetup();
 
-		// sets colors on matrix from processing applet
+		/*// sets colors on matrix from processing applet
 		setupTimer();
 
 		// setup chat server for API
@@ -88,7 +88,7 @@ public class LightWall extends BaseSwingFrameApp {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 
 	}
 
@@ -145,8 +145,9 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-		win = new DropsWindow(proc, "Processing sketch", 500, 300);
-
+	//	win = new DropsWindow(proc, "Processing sketch", 500, 300);
+		win = new BasicKinectApplet(proc, "Processing sketch", 500, 300);
+		
 		// win.setVisible(false);
 
 	}

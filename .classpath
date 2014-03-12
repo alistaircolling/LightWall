@@ -17,6 +17,10 @@
 	<classpathentry kind="lib" path="lib/toxiclibscore.jar"/>
 	<classpathentry kind="lib" path="lib/gifAnimation.jar"/>
 	<classpathentry kind="lib" path="lib/verletphysics.jar"/>
-	<classpathentry kind="lib" path="lib/openkinect.jar"/>
+	<classpathentry kind="lib" path="lib/openkinect.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LightWall/libsNative"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
