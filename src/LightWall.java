@@ -25,43 +25,129 @@ import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
 public class LightWall extends BaseSwingFrameApp {
-	Minim minim;
-	AudioPlayer song;
+	
+	//Tasks and timers
 	LoadFromCanvasTask loadFromCanvasTask = new LoadFromCanvasTask();
-
 	Timer timer;
-
+	
+	//Processing window  -what we are drawing on
 	// ExtraWindow win;
 	DropsWindow win;
-
-	// --- music fun
-	EQLevels eq;
-	int lowEQColBuffer = 4;
-	int highEQColBuffer = 4;
-
-	float eqDrawFactor = (float) .06;
-	float lowEQDrawFactor = (float) .02;
-	float highEQDrawFactor = (float) .35;
-
-	int eqFallDelayPos = 0;
-	int eqFallDelayAt = 12;
-	int musicTop = 400;
-
-	float eqInputAdj = (float) .00;
-	int eqLeftOffset = 1;
-	int eqRightOffset = 3;
-
-	float colorEQBrt = (float) 1;
-	float colorEQBackBrt = (float) .1;
-
-	int eqPos[];
 
 	// --- added for matrix
 	int MATRIX_COLS = 16;
 	int MATRIX_ROWS = 25;
-	LEDMatrix matrix;
-	private KinectController kinectController;
 
+	//Used to send to controller
+	LEDMatrix matrix;
+
+	
+	private JPanel contentPane;
+	private JTextField txtSongName;
+	
+	private ChatServer chatServer;
+
+	
+	private KinectController kinectController;
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					// NOTE: Using Minim version
+					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
+					procLaunch.launch("LightWall");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	
+	public LightWall() {
+		/*addWindowListener(new WindowAdapter() {
+			//should handle the window closing
+			//TODO check controller is getting disconnected1
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println("Window closing");
+				loadFromCanvasTask = null;
+				matrix.end();
+				timer.cancel();
+				timer.purge();
+
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+
+				System.exit(0);
+			}
+		});*/
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JButton btnDemo = new JButton("Demo 1");
+		btnDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runDemo1();
+			}
+		});
+		btnDemo.setBounds(10, 11, 89, 23);
+		contentPane.add(btnDemo);
+
+		JButton btnPlayDemoSong = new JButton("Play Demo Song");
+		btnPlayDemoSong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				playDemoSong();
+			}
+		});
+		btnPlayDemoSong.setBounds(133, 11, 195, 23);
+		contentPane.add(btnPlayDemoSong);
+
+		JButton btnStop = new JButton("Stop");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//button clicked
+			}
+		});
+		btnStop.setBounds(10, 45, 89, 23);
+		contentPane.add(btnStop);
+
+		txtSongName = new JTextField();
+		txtSongName.setText("/letithappen.mp3");
+		txtSongName.setBounds(133, 33, 195, 20);
+		contentPane.add(txtSongName);
+		txtSongName.setColumns(10);
+
+		setupExtraWindow();
+		try {
+			setupServer();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// moved -- matrixSetup();
+
+	}
+
+	
+	
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
@@ -126,128 +212,22 @@ public class LightWall extends BaseSwingFrameApp {
 	//	win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		 win = new DropsWindow(proc, "Matrix Setup", 500, 300);
 		// win.setVisible(false);
-
 		matrixSetup();
 	}
 
-	void matrixEQ() {
-		MATRIX_ROWS = matrix.rows();
-		MATRIX_COLS = matrix.cols();
-
-		incrFallDelay();
-		matrix.clear();
-		eq.fft.forward(eq.song.mix);
-		int w = (int) (this.getWidth() / eq.fft.avgSize());
-		float tmpEach = (((float) 1) / matrix.cols());
-		int tmpTop = matrix.cols() - 1;
-
-		for (int i = 0; i < matrix.cols(); i++) {
-			// draw a rectangle for each average, multiply the value by 5 so we
-			// can see it better
-			float tColor = i == 0 ? 0 : (tmpEach * (float) i);
-			int tmpc = Color.HSBtoRGB(tColor, 1, 1);
-			Color tmpColor = new Color(tmpc);
-			int tmpBack = Color.HSBtoRGB(tColor, 1, colorEQBackBrt);
-			Color tmpBackColor = new Color(tmpBack);
-
-			float matrixVal = eq.fft.getAvg(i);
-			float tmpDrawFactor = eqDrawFactor;
-
-			if (i >= MATRIX_COLS - highEQColBuffer - 1) {
-				tmpDrawFactor = highEQDrawFactor;
-			} else if (i <= lowEQColBuffer) {
-				tmpDrawFactor = lowEQDrawFactor;
-			}
-
-			int tmpPos = constrain(
-					(int) ((matrixVal * MATRIX_ROWS) * tmpDrawFactor), 0,
-					MATRIX_ROWS - 1);
-			eqPos[i] = Math.max(tmpPos, eqPos[i]);
-
-			int r = tmpColor.getRed();
-			int g = tmpColor.getGreen();
-			int b = tmpColor.getBlue();
-
-			int rb = tmpBackColor.getRed();
-			int gb = tmpBackColor.getGreen();
-			int bb = tmpBackColor.getBlue();
-
-			matrix.drawLine(i, 0, i, MATRIX_ROWS - 1, rb, gb, bb);
-			matrix.drawLine(i, MATRIX_ROWS - 1 - tmpPos, i, MATRIX_ROWS - 1, r,
-					g, b);
-			matrix.setRGB(i, MATRIX_ROWS - 1 - tmpPos, 150, 150, 150);
-			matrix.setRGB(i, MATRIX_ROWS - 1 - eqPos[i], 255, 255, 255);
-			if (eqPos[i] > 300) {
-				if (MATRIX_ROWS - 1 - eqPos[i] - 1 > 0) {
-					tmpBack = java.awt.Color.HSBtoRGB(tColor, (float) .4,
-							colorEQBackBrt * 2);
-					tmpBackColor = new Color(tmpBack);
-					rb = tmpBackColor.getRed(); // (int)red(tmpBackColor);
-					gb = tmpBackColor.getGreen(); // (int)green(tmpBackColor);
-					bb = tmpBackColor.getBlue(); // (int)blue(tmpBackColor);
-					matrix.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 1, rb, gb, bb);
-				}
-				if (MATRIX_ROWS - 1 - eqPos[i] - 2 > 0) {
-					tmpBack = Color.HSBtoRGB(tColor, (float) .7,
-							colorEQBackBrt * 2);
-					tmpBackColor = new Color(tmpBack);
-					rb = tmpBackColor.getRed(); // (int)red(tmpBackColor);
-					gb = tmpBackColor.getGreen(); // (int)green(tmpBackColor);
-					bb = tmpBackColor.getBlue(); // (int)blue(tmpBackColor);
-					matrix.setRGB(i, MATRIX_ROWS - 1 - eqPos[i] - 2, rb, gb, bb);
-				}
-			}
-			if (eqPos[i] > 0 && eqFallDelayPos == 0) {
-				eqPos[i] = eqPos[i] - 1;
-
-			}
-		}
-		matrix.refresh();
-	}
+	
 
 	// --- overrides the set process event to include loading minim from the
 	// base
 	public void setProc(PApplet theproc) {
 		super.setProc(theproc);
-		minim = ((ProcessingAppLauncherMinim) proc).minim;
-		eq = new EQLevels(minim, 20);
 	}
 
 	void playDemoSong() {
-		if (minim == null) {
-			System.out.println("NULL Minim");
-			return;
-		}
-		eq.loadSong(txtSongName.getText());
-		eq.song.play();
+		System.out.println("play demo song called");
 	}
 
-	private JPanel contentPane;
-	private JTextField txtSongName;
-	private ChatServer chatServer;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					// AppSoundDemoSwing frame = new AppSoundDemoSwing();
-					// frame.setVisible(true);
-
-					// ProcessingAppLauncher procLaunch = new
-					// ProcessingAppLauncher();
-					// NOTE: Using Minim version
-					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
-					procLaunch.launch("LightWall");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	void runDemo1() {
 		if (proc == null) {
 			System.out.print("NULL");
@@ -259,84 +239,7 @@ public class LightWall extends BaseSwingFrameApp {
 	/**
 	 * Create the frame.
 	 */
-	public LightWall() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				loadFromCanvasTask = null;
-
-				matrix.end();
-				timer.cancel();
-				timer.purge();
-
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException ex) {
-					// TODO Auto-generated catch block
-					ex.printStackTrace();
-				}
-
-				System.exit(0);
-			}
-		});
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JButton btnDemo = new JButton("Demo 1");
-		btnDemo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				runDemo1();
-			}
-		});
-		btnDemo.setBounds(10, 11, 89, 23);
-		contentPane.add(btnDemo);
-
-		JButton btnPlayDemoSong = new JButton("Play Demo Song");
-		btnPlayDemoSong.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				playDemoSong();
-			}
-		});
-		btnPlayDemoSong.setBounds(133, 11, 195, 23);
-		contentPane.add(btnPlayDemoSong);
-
-		JButton btnStop = new JButton("Stop");
-		btnStop.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (eq.song == null)
-					return;
-
-				if (eq.song.isPlaying())
-					eq.song.close();
-			}
-		});
-		btnStop.setBounds(10, 45, 89, 23);
-		contentPane.add(btnStop);
-
-		txtSongName = new JTextField();
-		txtSongName.setText("/letithappen.mp3");
-		txtSongName.setBounds(133, 33, 195, 20);
-		contentPane.add(txtSongName);
-		txtSongName.setColumns(10);
-
-		setupExtraWindow();
-		try {
-			setupServer();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		// moved -- matrixSetup();
-
-	}
+	
 //this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
 	
