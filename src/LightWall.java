@@ -45,7 +45,7 @@ public class LightWall extends BaseSwingFrameApp {
 	private JTextField txtSongName;
 
 	// FIXME add chatserver class
-	// private ChatServer chatServer;
+	//private ChatServer chatServer;
 
 	/**
 	 * Launch the application.
@@ -70,22 +70,17 @@ public class LightWall extends BaseSwingFrameApp {
 	}
 
 	public LightWall() {
-		/*
-		 * CODE TO ADD CLOSE LISTENER addWindowListener(new WindowAdapter() {
-		 * 
-		 * @Override public void windowClosing(WindowEvent e) {
-		 * loadFromCanvasTask = null;
-		 * 
-		 * matrix.end(); timer.cancel(); timer.purge();
-		 * 
-		 * try { Thread.sleep(1000); } catch (InterruptedException ex) { // TODO
-		 * Auto-generated catch block ex.printStackTrace(); }
-		 * 
-		 * System.exit(0); } });
-		 */
 
+		// setup processing applet
 		setupExtraWindow();
+
+		// setup the controller to connect to
 		matrixSetup();
+
+		// sets colors on matrix from processing applet
+		setupTimer();
+
+		// setup chat server for API
 		try {
 			setupServer();
 		} catch (InterruptedException e1) {
@@ -94,10 +89,6 @@ public class LightWall extends BaseSwingFrameApp {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
-		// TODO uncomment before running properly!
-		// IS THIS CAUSING THE APP TO FAIL TO QUIT WHEN IT IS UNCOMMENTED?
-		setupTimer();
 
 	}
 
@@ -118,17 +109,11 @@ public class LightWall extends BaseSwingFrameApp {
 		System.out.println("matrix Setup..");
 		matrix = new LEDMatrix(MATRIX_COLS, MATRIX_ROWS, 24, 24, 1);
 		loadDefaultMatrix();
-		// try {
-		// matrix.disconnectFromController();
-		// System.out.println("disconnected from controller");
-		// } catch (Error e) {
-		// System.out
-		// .println("error trying to disconnect from controller before conencting....");
-		// System.out.println("maybe it wasnt connected?");
-		// }
+
 		// -- TO CONNECT --->>>
 		// matrix.connectToController();
 
+		this.setLocation(0, 0);
 		matrix.refresh();
 
 		matrix.emulatorDelay = 20;
@@ -136,6 +121,10 @@ public class LightWall extends BaseSwingFrameApp {
 				this.getLocation().y);
 
 		matrix.ui.setVisible(true);
+
+		int newX = matrix.ui.getLocation().x;
+		int newY = matrix.ui.getLocation().x;
+//		win.setLocation(newX, newY);
 
 	}
 
@@ -148,9 +137,6 @@ public class LightWall extends BaseSwingFrameApp {
 				int green = (int) proc.green(cp);
 				int blue = (int) proc.blue(cp);
 
-				// win.logIt(iW+":"+iH+"red:"+rr+" green:"+green);
-				// matrix.setRGB(iW, iH, (int) (proc.red(cp) * 255), (int) (proc
-				// .green(cp) * 255), (int) (proc.blue(cp) * 255));
 				matrix.setRGB(iW, iH, red, green, blue);
 			}
 		}
@@ -159,7 +145,8 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-		win = new DropsWindow(proc, "Matrix Setup", 500, 300);
+		win = new DropsWindow(proc, "Processing sketch", 500, 300);
+
 		// win.setVisible(false);
 
 	}
@@ -173,8 +160,8 @@ public class LightWall extends BaseSwingFrameApp {
 	// this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
 		// FIXME add the Chatserver code
-		// chatServer = new ChatServer(8885);
-		// chatServer.main(null);
+//		 chatServer = new ChatServer(8885);
+//		 chatServer.main(null);
 
 	}
 
