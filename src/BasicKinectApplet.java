@@ -23,7 +23,7 @@ public class BasicKinectApplet extends ExtraWindow {
 	}
 	
 	public void setup() {
-		size(width, height, OPENGL);
+		size(640, 480, OPENGL);
 		println("BasicKinectApplet setup");
 		createLookupTable();
 		kinect = new Kinect(this);
@@ -95,7 +95,7 @@ public class BasicKinectApplet extends ExtraWindow {
 				col.setHSV(zDecimal, 100, 100);
 				stroke(round(col.red() * 255), round(col.green() * 255),
 						round(col.blue() * 255));
-
+				strokeWeight(5);
 				// set offsets half the screen size
 				int xOffset = 320;
 				int yOffset = 240;
