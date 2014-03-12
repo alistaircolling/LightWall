@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/toxiclibscore.jar"/>
 	<classpathentry kind="lib" path="lib/gifAnimation.jar"/>
 	<classpathentry kind="lib" path="lib/verletphysics.jar"/>
+	<classpathentry kind="lib" path="lib/openkinect.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
