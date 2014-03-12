@@ -45,6 +45,7 @@ public class LightWall extends BaseSwingFrameApp {
 
 	private JPanel contentPane;
 	private JTextField txtSongName;
+	private PImage lastScreen;
 
 	// FIXME add chatserver class
 	// private ChatServer chatServer;
@@ -129,28 +130,37 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void loadFromCanvas() {
 
-		for (int iH = 0; iH < matrix.rows(); iH++) {
-			for (int iW = 0; iW < matrix.cols(); iW++) {
-				int cp = win.get((iW), (iH));
+	//if (lastScreen != null) {
+			for (int iH = 0; iH < matrix.rows(); iH++) {
+				for (int iW = 0; iW < matrix.cols(); iW++) {
+					int cp = win.get((iW), (iH));
+//					int last = lastScreen.get((iW), (iH));
+//					int difference = (int) cp - last;
+//					int target = (int) (last + difference * .5f);
 
-				int red = (int) proc.red(cp);
-				int green = (int) proc.green(cp);
-				int blue = (int) proc.blue(cp);
-				System.out.println(cp);
-				if (TColor.BLACK.toARGB() != cp) {
-					// matrix.setRGB(iW, iH, 255, 255, 255);
-					matrix.setRGB(iW, iH, red, green, blue);
+					
+
+					int red = (int) proc.red(cp);
+					int green = (int) proc.green(cp);
+					int blue = (int) proc.blue(cp);
+					if (TColor.BLACK.toARGB() != cp) {
+						// matrix.setRGB(iW, iH, 255, 255, 255);
+						matrix.setRGB(iW, iH, red, green, blue);
+					}
+
 				}
-
 			}
-		}
+//		} else {
+//			// store the last PIMG
+//			lastScreen = win.get();
+//		}
 		matrix.refresh();
 	}
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsWindow(proc, "Processing sketch", 500, 300);
-		win = new BasicKinectApplet(proc, "Processing sketch", 640, 480);
+		win = new BasicKinectApplet(proc, "Processing Sketch", 640, 480);
 
 		// win.setVisible(false);
 
