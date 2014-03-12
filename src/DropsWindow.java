@@ -39,7 +39,7 @@ public class DropsWindow extends ExtraWindow {
 	}
 
 	public void setup() {
-		frameRate(40);
+		//frameRate(5);
 		background(0);
 	//	ranCol = TColor.newRandom();
 		colorMode(HSB, 50, 100, 100);

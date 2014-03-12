@@ -13,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import com.hookedup.led.LEDMatrix;
 import com.hookedup.processing.EQLevels;
@@ -45,7 +46,7 @@ public class LightWall extends BaseSwingFrameApp {
 	private JTextField txtSongName;
 
 	// FIXME add chatserver class
-	//private ChatServer chatServer;
+	// private ChatServer chatServer;
 
 	/**
 	 * Launch the application.
@@ -77,18 +78,14 @@ public class LightWall extends BaseSwingFrameApp {
 		// setup the controller to connect to
 		matrixSetup();
 
-		/*// sets colors on matrix from processing applet
+		// sets colors on matrix from processing applet
 		setupTimer();
-
-		// setup chat server for API
-		try {
-			setupServer();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}*/
+		/*
+		 * // setup chat server for API try { setupServer(); } catch
+		 * (InterruptedException e1) { // TODO Auto-generated catch block
+		 * e1.printStackTrace(); } catch (IOException e1) {
+		 * e1.printStackTrace(); }
+		 */
 
 	}
 
@@ -124,20 +121,24 @@ public class LightWall extends BaseSwingFrameApp {
 
 		int newX = matrix.ui.getLocation().x;
 		int newY = matrix.ui.getLocation().x;
-//		win.setLocation(newX, newY);
+		// win.setLocation(newX, newY);
+		System.out.println("matrix setup");
 
 	}
 
 	void loadFromCanvas() {
+
 		for (int iH = 0; iH < matrix.rows(); iH++) {
 			for (int iW = 0; iW < matrix.cols(); iW++) {
 				int cp = win.get((iW), (iH));
-				int rr = (int) proc.red(cp);
+
 				int red = (int) proc.red(cp);
 				int green = (int) proc.green(cp);
 				int blue = (int) proc.blue(cp);
+			//	if (red > 0 && green > 0 && blue > 0) {
+					matrix.setRGB(iW, iH, red, green, blue);
+				//}
 
-				matrix.setRGB(iW, iH, red, green, blue);
 			}
 		}
 		matrix.refresh();
@@ -145,9 +146,9 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-	//	win = new DropsWindow(proc, "Processing sketch", 500, 300);
+		// win = new DropsWindow(proc, "Processing sketch", 500, 300);
 		win = new BasicKinectApplet(proc, "Processing sketch", 640, 480);
-		
+
 		// win.setVisible(false);
 
 	}
@@ -161,15 +162,15 @@ public class LightWall extends BaseSwingFrameApp {
 	// this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
 		// FIXME add the Chatserver code
-//		 chatServer = new ChatServer(8885);
-//		 chatServer.main(null); 
+		// chatServer = new ChatServer(8885);
+		// chatServer.main(null);
 
 	}
 
 	void setupTimer() {
 		timer = new Timer();
 		timer.schedule(loadFromCanvasTask, 0, // initial delay
-				100);
+				500);
 	}
 
 	// /////CHAT SERVER /////////
@@ -177,7 +178,14 @@ public class LightWall extends BaseSwingFrameApp {
 	class LoadFromCanvasTask extends TimerTask {
 		public void run() {
 			while (true) {
-				loadFromCanvas();
+
+				if (((BasicKinectApplet) win).kinectRunning) {
+
+					loadFromCanvas();
+				} else {
+					// System.out.println("not kinect not up");
+				}
+
 			}
 
 		}

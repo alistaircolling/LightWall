@@ -1,10 +1,11 @@
+import java.io.Console;
+
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import toxi.color.TColor;
-
 
 import com.hookedup.processing.ExtraWindow;
 
@@ -14,6 +15,7 @@ public class BasicKinectApplet extends ExtraWindow {
 	private float[] depthLookUp;
 	
 	private int threshold = 500;
+	public boolean kinectRunning;
 
 	
 	public BasicKinectApplet(PApplet theApplet, String theName, int theWidth,
@@ -23,17 +25,21 @@ public class BasicKinectApplet extends ExtraWindow {
 	}
 	
 	public void setup() {
-		size(640, 480, OPENGL);
-		println("BasicKinectApplet setup");
+//		size(640, 480, OPENGL);
+		size(640, 480);
+		frameRate(10);
+		println("BasicKinectApplet setting up kinect");
 		createLookupTable();
 		kinect = new Kinect(this);
 		kinect.start();
 		kinect.enableRGB(true);
 		kinect.enableDepth(true);
 		kinect.processDepthImage(true);
-
+		println("==========Kinect set up=============");
+		kinectRunning = true;
 	}
-
+	
+	
 	private void createLookupTable() {
 		depthLookUp = new float[2048];
 		for (int i = 0; i < depthLookUp.length; i++) {
@@ -81,12 +87,12 @@ public class BasicKinectApplet extends ExtraWindow {
 					count++;
 				}
 
-				if (count != 0) {
-					float avgX = sumX / count;
-					float avgY = sumY / count;
-					fill(255, 0, 0);
-					ellipse(avgX, avgY, 16, 16);
-				}
+//				if (count != 0) {
+//					float avgX = sumX / count;
+//					float avgY = sumY / count;
+//					fill(255, 0, 0);
+//					ellipse(avgX, avgY, 16, 16);
+//				}
 
 				PVector v = depthToWorld(x, y, rawDepth);
 				// set color based on z
@@ -96,7 +102,7 @@ public class BasicKinectApplet extends ExtraWindow {
 				col.setHSV(zDecimal, 100, 100);
 				stroke(round(col.red() * 255), round(col.green() * 255),
 						round(col.blue() * 255));
-				strokeWeight(19);
+				strokeWeight(1);
 				// set offsets half the screen size
 				int xOffset = 320;
 				int yOffset = 240;
