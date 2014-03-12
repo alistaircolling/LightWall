@@ -5,6 +5,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import toxi.color.TColor;
 
+
 import com.hookedup.processing.ExtraWindow;
 
 public class BasicKinectApplet extends ExtraWindow {
@@ -22,7 +23,7 @@ public class BasicKinectApplet extends ExtraWindow {
 	}
 	
 	public void setup() {
-	//	size(640, 480, OPENGL);
+		size(width, height, OPENGL);
 		println("BasicKinectApplet setup");
 		createLookupTable();
 		kinect = new Kinect(this);
@@ -51,7 +52,7 @@ public class BasicKinectApplet extends ExtraWindow {
 	public void draw() {
 		background(0);
 		PImage img = kinect.getVideoImage();
-		 image(img, 0, 0);
+		// image(img, 0, 0);
 		drawPoints();
 
 	}
