@@ -36,7 +36,7 @@ public class LightWall extends BaseSwingFrameApp {
 	PApplet win;
 
 	// --- added for matrix
-	int MATRIX_COLS = 16;
+	int MATRIX_COLS = 40;
 	int MATRIX_ROWS = 25;
 
 	LEDMatrix matrix;
@@ -162,7 +162,7 @@ public class LightWall extends BaseSwingFrameApp {
 	private void setupServer() throws InterruptedException, IOException {
 		// FIXME add the Chatserver code
 //		 chatServer = new ChatServer(8885);
-//		 chatServer.main(null);
+//		 chatServer.main(null); 
 
 	}
 
