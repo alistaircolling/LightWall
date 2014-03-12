@@ -58,7 +58,8 @@ public class BasicKinectApplet extends ExtraWindow {
 	}
 
 	private void drawPoints() {
-		int skip = 7;
+		int skipX = 640/40;
+		int skipY = round(480/25);
 		int[] depth = kinect.getRawDepth();
 		
 		//used to calculate av position of object below threshold
@@ -66,8 +67,8 @@ public class BasicKinectApplet extends ExtraWindow {
 		float sumY = 0;
 		float count = 0;
 		
-		for (int x = 0; x < 640; x += skip) {
-			for (int y = 0; y < 480; y += skip) {
+		for (int x = 0; x < 640; x += skipX) {
+			for (int y = 0; y < 480; y += skipY) {
 				int offset = x + y * width;
 				// Convert kinect data to world xyz coordinate
 				int rawDepth = depth[offset];
@@ -95,15 +96,16 @@ public class BasicKinectApplet extends ExtraWindow {
 				col.setHSV(zDecimal, 100, 100);
 				stroke(round(col.red() * 255), round(col.green() * 255),
 						round(col.blue() * 255));
-				strokeWeight(5);
+				strokeWeight(19);
 				// set offsets half the screen size
 				int xOffset = 320;
 				int yOffset = 240;
 				pushMatrix();
 				// Scale up
 				float factor = 640;
-				translate((v.x * factor) + xOffset, yOffset + (v.y * factor),
-						factor - v.z * factor);
+		// TRYING A NEW TRANSLATE		translate((v.x * factor) + xOffset, yOffset + (v.y * factor),
+						//factor - v.z * factor);
+				translate(x/skipX, y/skipY);
 				// Draw a point
 				point(0, 0);
 				popMatrix();
