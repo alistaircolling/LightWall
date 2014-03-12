@@ -24,7 +24,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JTextField;
 
-public class MatrixEQApp extends BaseSwingFrameApp {
+public class LightWall extends BaseSwingFrameApp {
 	Minim minim;
 	AudioPlayer song;
 	LoadFromCanvasTask loadFromCanvasTask = new LoadFromCanvasTask();
@@ -255,7 +255,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 					// ProcessingAppLauncher();
 					// NOTE: Using Minim version
 					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
-					procLaunch.launch("MatrixEQApp");
+					procLaunch.launch("LightWall");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -274,7 +274,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	/**
 	 * Create the frame.
 	 */
-	public MatrixEQApp() {
+	public LightWall() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
