@@ -28,7 +28,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JTextField;
 
-public class MatrixEQApp extends BaseSwingFrameApp {
+public class LightWall extends BaseSwingFrameApp {
 	Minim minim;
 	AudioPlayer song;
 	LoadFromCanvasTask loadFromCanvasTask = new LoadFromCanvasTask();
@@ -244,7 +244,8 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 
 	private JPanel contentPane;
 	private JTextField txtSongName;
-	private ChatServer chatServer;
+	//FIXME add chatserver class
+	//private ChatServer chatServer;
 
 	/**
 	 * Launch the application.
@@ -260,7 +261,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 					// ProcessingAppLauncher();
 					// NOTE: Using Minim version
 					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
-					procLaunch.launch("MatrixEQApp");
+					procLaunch.launch("LightWall");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -279,7 +280,7 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	/**
 	 * Create the frame.
 	 */
-	public MatrixEQApp() {
+	public LightWall() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -359,9 +360,9 @@ public class MatrixEQApp extends BaseSwingFrameApp {
 	}
 //this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
-	
-			chatServer = new ChatServer(8885);
-			chatServer.main(null);
+	//FIXME add the Chatserver code
+//			chatServer = new ChatServer(8885);
+//			chatServer.main(null);
 	
 		
 	}
