@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import toxi.color.TColor;
 
 import com.hookedup.led.LEDMatrix;
 import com.hookedup.processing.EQLevels;
@@ -135,9 +136,11 @@ public class LightWall extends BaseSwingFrameApp {
 				int red = (int) proc.red(cp);
 				int green = (int) proc.green(cp);
 				int blue = (int) proc.blue(cp);
-			//	if (red > 0 && green > 0 && blue > 0) {
+				System.out.println(cp);
+				if (TColor.BLACK.toARGB() != cp) {
+					// matrix.setRGB(iW, iH, 255, 255, 255);
 					matrix.setRGB(iW, iH, red, green, blue);
-				//}
+				}
 
 			}
 		}
