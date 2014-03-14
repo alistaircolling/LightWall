@@ -42,8 +42,8 @@ public class DropsWindow extends ExtraWindow {
 		//frameRate(5);
 		background(0);
 	//	ranCol = TColor.newRandom();
-		colorMode(HSB, 50, 100, 100);
-		setRanCol();
+	//	colorMode(HSB, 50, 100, 100);
+	//	setRanCol();
 
 	}
 
@@ -58,7 +58,7 @@ public class DropsWindow extends ExtraWindow {
 	}
 
 	public void draw() {
-		
+		/*
 		noSmooth();
 		if (blackSnake){
 			stroke(0, 0, 0);
@@ -133,7 +133,7 @@ public class DropsWindow extends ExtraWindow {
 
 		default:
 			break;
-		}
+		}*/
 		
 		
 		

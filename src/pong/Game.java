@@ -30,16 +30,23 @@ public class Game extends GameState {
 		rightPaddle.update();
 	}
 
+	public static int getBallX(){
+		System.out.println("getballX");
+		return (int) ball.getX();
+	}
+	
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
-		g.setColor(Color.WHITE);
-		g.drawString(Integer.toString(leftPaddle.getScore()), width/4, 40);
-		g.drawString(Integer.toString(rightPaddle.getScore()), 3*(width/4), 40);
+		//draw scores
+		
+//		g.setColor(Color.WHITE);
+//		g.drawString(Integer.toString(leftPaddle.getScore()), width/4, 40);
+//		g.drawString(Integer.toString(rightPaddle.getScore()), 3*(width/4), 40);
 
-		g.drawRect(width / 2, 0, 1, height);
+	//	g.drawRect(width / 2, 0, 1, height);
 
 		ball.draw(g);
 		leftPaddle.draw(g);

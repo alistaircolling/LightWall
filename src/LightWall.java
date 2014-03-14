@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import pong.Pong;
 import processing.core.PApplet;
 import processing.core.PImage;
 import toxi.color.TColor;
@@ -35,7 +36,7 @@ public class LightWall extends BaseSwingFrameApp {
 	Timer timer;
 
 	// ExtraWindow win;
-	PApplet win;
+	DropsWindow win;
 
 	// --- added for matrix
 	int MATRIX_COLS = 40;
@@ -46,6 +47,7 @@ public class LightWall extends BaseSwingFrameApp {
 	private JPanel contentPane;
 	private JTextField txtSongName;
 	private PImage lastScreen;
+	private Pong pong;
 
 	// FIXME add chatserver class
 	// private ChatServer chatServer;
@@ -77,11 +79,15 @@ public class LightWall extends BaseSwingFrameApp {
 		// setup processing applet
 		setupExtraWindow();
 
+		//PONG
+		setupPong();
+		
 		// setup the controller to connect to
 		matrixSetup();
 
 		// sets colors on matrix from processing applet
 		setupTimer();
+		
 		/*
 		 * // setup chat server for API try { setupServer(); } catch
 		 * (InterruptedException e1) { // TODO Auto-generated catch block
@@ -91,10 +97,17 @@ public class LightWall extends BaseSwingFrameApp {
 
 	}
 
+	private void setupPong() {
+		
+		pong = new Pong();
+		
+		
+	}
+
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-	//			.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+		//		.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 
 		 .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
@@ -133,19 +146,23 @@ public class LightWall extends BaseSwingFrameApp {
 	//if (lastScreen != null) {
 			for (int iH = 0; iH < matrix.rows(); iH++) {
 				for (int iW = 0; iW < matrix.cols(); iW++) {
+			//		win.background(0);
+					//doing pong so gonna get PIMg
+					PImage pongImg = pong.pongImage;
+					
+					win.image(pongImg, 0,0,40,25);
+		//			int cp = pongImg.get((iW*10), (iH*10));
+					
 					int cp = win.get((iW), (iH));
-//					int last = lastScreen.get((iW), (iH));
-//					int difference = (int) cp - last;
-//					int target = (int) (last + difference * .5f);
 					
 					int red = (int) proc.red(cp);
 					int green = (int) proc.green(cp);
 					int blue = (int) proc.blue(cp);
 					
-					if (TColor.BLACK.toARGB() != cp) {
+				//	if (TColor.BLACK.toARGB() != cp) {
 						// matrix.setRGB(iW, iH, 255, 255, 255);
 						matrix.setRGB(iW, iH, red, green, blue);
-					}
+				//	}
 
 				}
 			}
@@ -158,8 +175,8 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-		// win = new DropsWindow(proc, "Processing sketch", 500, 300);
-		win = new BasicKinectApplet(proc, "Processing Sketch", 640, 480);
+		 win = new DropsWindow(proc, "Processing sketch", 500, 300);
+		//win = new BasicKinectApplet(proc, "Processing Sketch", 640, 480);
 
 		// win.setVisible(false);
 
@@ -190,13 +207,14 @@ public class LightWall extends BaseSwingFrameApp {
 	class LoadFromCanvasTask extends TimerTask {
 		public void run() {
 			while (true) {
-
+				loadFromCanvas();
+/*
 				if (((BasicKinectApplet) win).kinectRunning) {
 
 					loadFromCanvas();
 				} else {
 					// System.out.println("not kinect not up");
-				}
+				}*/
 
 			}
 
