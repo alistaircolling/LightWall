@@ -10,7 +10,7 @@ import toxi.color.TColor;
 
 public class Ball {
 	
-	double diameter = 10; //Default: 10
+	double diameter = 20; //Default: 10
 //	double diameter = 2; //Default: 10
 	
 	double speed = 0;
