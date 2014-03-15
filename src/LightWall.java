@@ -33,7 +33,7 @@ public class LightWall extends BaseSwingFrameApp {
 	Timer timer;
 
 	// ExtraWindow win;
-	DropsWindow win;
+	DropsRan win;
 
 	// --- added for matrix
 	int MATRIX_COLS = 16;
@@ -145,7 +145,7 @@ public class LightWall extends BaseSwingFrameApp {
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-		win = new DropsWindow(proc, "Processing sketch", 500, 300);
+		win = new DropsRan(proc, "Processing sketch", 500, 300);
 
 		// win.setVisible(false);
 
