@@ -24,9 +24,12 @@ public class KNColors {
 	// could add option to pass kind of pallete
 	public static ColorList getListFromColor(TColor col, int tot ) {
 
-		ColorRange range = new ColorRange(
+/*//		ColorRange range = new ColorRange(
 				ColorTheoryRegistry.SPLIT_COMPLEMENTARY
-						.createListFromColor(col));
+						.createListFromColor(col));*/
+		ColorRange range = new ColorRange(
+				ColorTheoryRegistry.TETRAD
+				.createListFromColor(col));
 		ColorList sorted = range.getColors(tot).sortByDistance(false);
 		return sorted;
 	}
