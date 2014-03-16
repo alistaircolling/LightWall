@@ -13,7 +13,7 @@ public class ZigList {
 	private int spacing;
 	private int zigHeight;
 	private int totZigs;
-	private int maxDelay = 15;
+	private int maxDelay = 4;
 	private PApplet sketch;
 	private ArrayList<Zig> list;
 	private TColor bgCol;
@@ -46,7 +46,8 @@ public class ZigList {
 		//totZigs = (int) (aHeight / (zigHeight+spacing));
 		list = new ArrayList<Zig>();
 		for (int i = 0; i < totZigs; i++) {
-			int startDelay = (int) Math.random()*maxDelay;
+			int startDelay = (int) (Math.round((Math.random()*maxDelay))*(zigHeight*2));//must be a miltiopk
+			System.out.println("startDelay:"+startDelay);
 			Zig zig = new Zig(i*(zigHeight+spacing), zigHeight, similarList.get(i), startDelay, sketch, aWidth, (int) strokeW); 
 			list.add(zig);
 		}
@@ -58,11 +59,12 @@ public class ZigList {
 	public void update() {
 	//	sketch.stroke(0);
 	//	sketch.line(0,0,10,10);
-		
+		int totFinished = 0;
 		for (int i = 0; i < list.size(); i++) {
 			Zig zig = list.get(i);
+			if (zig.finished) totFinished++;
 			//check if finsihed then startc again //TODO make better! - check all
-			if (zig.finished){
+			if (totFinished == list.size()){
 				allFinished = true;
 			}else{
 				zig.update();

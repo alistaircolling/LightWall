@@ -13,6 +13,8 @@ public class KNColors {
 	public static TColor ORANGE = TColor.newHex("FF9D00");
 	public static TColor PURPLE = TColor.newHex("BF00FF");
 	public static TColor BLUE = TColor.newHex("00AAFF");
+	public static TColor GREENBLUE = TColor.newHex("00F5AB");
+	public static TColor PINK2 = TColor.newHex("FCA7FA");
 
 	// private ColorRange range;
 	// private ColorList sorted;
@@ -46,6 +48,9 @@ public class KNColors {
 		list.add(ORANGE);
 		list.add(PURPLE);
 		list.add(BLUE);
+		list.add(GREENBLUE);
+		list.add(PINK2);
+		list.add(TColor.WHITE);
 		
 		return list; 
 	}
