@@ -13,7 +13,7 @@ public class Zig {
 	private int startY;
 	private int startCount;
 	public boolean finished;
-	private float strokeW;
+	private int strokeW;
 
 	public Zig(int starty, int zigHeight, TColor tColor, int startDelay,
 			PApplet sketch, int wid, int strok) {
@@ -29,32 +29,34 @@ public class Zig {
 	}
 
 	public void update() {
-		System.out.println("startY:" + startY + " counter:" + counter
-				+ " zigwidth:" + zigWidth);
+	
 		// make sure we reach far side!
-		if ((counter * (zHeight) - 1) < zigWidth) {
-			int upDown; // is going up or down? always 0 or 1
-			proc.strokeWeight(strokeW);
-			// proc.stroke(0);
-			proc.stroke(theCol.toARGB());
-			for (int i = startCount; i < counter; i++) {
-				upDown = counter % 2;
-				int lineXStart = (counter - 1) * zHeight;
-				int lineYStart = startY + (upDown * zHeight);
-				int lineEndX = (counter) * zHeight;
-				int flipVal = Math.abs(upDown - 1);
-				int lineEndY = startY + (flipVal * zHeight);
-				// proc.line(0, 0, 100, 100);
-				// draw each dot in the line
-				
-				
+		int isGoingDown = 1;
+		proc.strokeWeight(strokeW);
+		proc.stroke(theCol.toARGB());
+		int yCount = 0;
+		int xPos = 0;
+		if (counter < zigWidth) {
 
-				 proc.line(lineXStart, lineYStart, lineEndX, lineEndY);
-			}
-			counter++;
+		//	int yPos;
+			
+			
+			  float yPos = zHeight - Math.abs(proc.frameCount % (2*zHeight) - zHeight);
+			  System.out.println("zig:"+yPos+" xpos:"+xPos+" strokeW:"+strokeW);
+			  //fill(zigZag);
+			  //noStroke();
+			  //ellipse( 400 ,150 , zigZag, zigZag);
+			  //text("triangle wave = " + int(zigZag), 100, 200);
+			 // stroke(0);
+			  //strokeWeight(1); 
+			  proc.point(counter, startY + yPos);
+			  xPos++;//=strokeW;//strokewidth is the speed;
+			  
+//			proc.point(xPos, yPos);
 		} else {
 
 			finished = true;
 		}
+		counter++;
 	}
 }

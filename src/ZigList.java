@@ -28,7 +28,7 @@ public class ZigList {
 			spacing  = spacin;
 			zigHeight = zigHeigh;
 			sketch = proc;
-			strokeW = proc.random(1, 4);
+			strokeW = proc.random(1, 1);//TODO make varibla
 			
 			totZigs = (int) Math.ceil(animHeight/(zigHeight+spacin))+3;
 			

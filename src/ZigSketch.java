@@ -41,9 +41,11 @@ public class ZigSketch extends ExtraWindow {
 
 	private void createZigList() {
 		//
-		zigList = new ZigList(40, 25, pallete, (int) random(1, 4),
+		zigList = new ZigList(40, 25, pallete, 3,
+				3, this);
+/*		zigList = new ZigList(40, 25, pallete, (int) random(1, 4),
 				(int) random(2, 6), this);
-
+*/
 	}
 
 	public void draw() {
