@@ -27,8 +27,11 @@ public class KNColors {
 /*//		ColorRange range = new ColorRange(
 				ColorTheoryRegistry.SPLIT_COMPLEMENTARY
 						.createListFromColor(col));*/
-		ColorRange range = new ColorRange(
+/*//		ColorRange range = new ColorRange(
 				ColorTheoryRegistry.TETRAD
+				.createListFromColor(col));*/
+		ColorRange range = new ColorRange(
+				ColorTheoryRegistry.ANALOGOUS
 				.createListFromColor(col));
 		ColorList sorted = range.getColors(tot).sortByDistance(false);
 		return sorted;

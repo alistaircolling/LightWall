@@ -30,7 +30,7 @@ public class ZigList {
 			sketch = proc;
 			strokeW = proc.random(1, 4);
 			
-			totZigs = (int) Math.ceil(animHeight/(zigHeight+spacin))+2;
+			totZigs = (int) Math.ceil(animHeight/(zigHeight+spacin))+3;
 			
 			generateZigs();
 	}

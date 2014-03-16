@@ -31,8 +31,8 @@ public class Zig {
 	public void update() {
 		System.out.println("startY:" + startY + " counter:" + counter
 				+ " zigwidth:" + zigWidth);
-		//make sure we reach far side!
-		if ((counter * (zHeight)-1) < zigWidth) {
+		// make sure we reach far side!
+		if ((counter * (zHeight) - 1) < zigWidth) {
 			int upDown; // is going up or down? always 0 or 1
 			proc.strokeWeight(strokeW);
 			// proc.stroke(0);
@@ -45,7 +45,11 @@ public class Zig {
 				int flipVal = Math.abs(upDown - 1);
 				int lineEndY = startY + (flipVal * zHeight);
 				// proc.line(0, 0, 100, 100);
-				proc.line(lineXStart, lineYStart, lineEndX, lineEndY);
+				// draw each dot in the line
+				
+				
+
+				 proc.line(lineXStart, lineYStart, lineEndX, lineEndY);
 			}
 			counter++;
 		} else {

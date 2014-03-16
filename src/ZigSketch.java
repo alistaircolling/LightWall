@@ -1,9 +1,9 @@
-import java.util.ArrayList;
+import java.util.Iterator;
 
 import processing.core.PApplet;
+import toxi.color.ColorGradient;
 import toxi.color.ColorList;
 import toxi.color.TColor;
-import toxi.geom.Vec2D;
 
 import com.hookedup.processing.ExtraWindow;
 
@@ -41,7 +41,8 @@ public class ZigSketch extends ExtraWindow {
 
 	private void createZigList() {
 		//
-		zigList = new ZigList(40, 25, pallete, (int) random(2, 6),  (int) random(2, 6), this);
+		zigList = new ZigList(40, 25, pallete, (int) random(1, 4),
+				(int) random(2, 6), this);
 
 	}
 
@@ -50,14 +51,32 @@ public class ZigSketch extends ExtraWindow {
 		if (counter % 5 == 0) {
 			if (zigList.allFinished) {
 				zigList = null;
-				
-				background(pallete.getRandom().toARGB());
+
+				// background(pallete.getRandom().toARGB());
+				drawThBG();
 				createZigList();
 			} else {
 				zigList.update();
 			}
 		}
 		counter++;
+
+	}
+
+	private void drawThBG() {
+		TColor startCol = pallete.getRandom();
+		TColor endCol = pallete.getRandom();
+		ColorGradient grad = new ColorGradient();
+		grad.addColorAt(0, startCol);
+		grad.addColorAt(40, endCol);
+		ColorList list = grad.calcGradient(0, 40);
+		int x = 0;
+		for (Iterator i = list.iterator(); i.hasNext();) {
+			TColor c = (TColor) i.next();
+			stroke(c.toARGB());
+			line(x, 0, x, 25);
+			x++;
+		}
 
 	}
 
