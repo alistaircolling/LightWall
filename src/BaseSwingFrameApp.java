@@ -22,10 +22,13 @@ import com.hookedup.processing.ProcessingAppLauncher;
 
 public class BaseSwingFrameApp extends JFrame implements IProcessingApp {
 
+	public static final String START = "start";
 	private JPanel contentPane;
 	PApplet proc;
 	private JList list;
 	private DefaultListModel newModel;
+	public JButton btnDemo;
+	public JButton startButton;
 	
 	//--- This function is called by the launcher when it opens the window
 	//  this provides a handle to the processing applet, needed for most libraries
@@ -78,7 +81,7 @@ public class BaseSwingFrameApp extends JFrame implements IProcessingApp {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnDemo = new JButton("Clear List");
+		btnDemo = new JButton("Clear List");
 		btnDemo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				clearList();
@@ -86,12 +89,10 @@ public class BaseSwingFrameApp extends JFrame implements IProcessingApp {
 		});
 		btnDemo.setBounds(10, 11, 89, 23);
 		contentPane.add(btnDemo);
-		JButton startButton = new JButton("Start");
-		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				startUp();
-			}
-		});
+		
+		startButton = new JButton("SWAP -was start....");
+		
+		startButton.setBounds(155, 230, 89, 23);
 		
 		startButton.setBounds(155, 230, 89, 23);
 		contentPane.add(startButton);
@@ -114,12 +115,7 @@ public class BaseSwingFrameApp extends JFrame implements IProcessingApp {
 		
 	}
 
-	protected void startUp() {
-		System.out.println("Start!");
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	private void createList() {
 		list = new JList(new DefaultListModel() {
 
@@ -142,7 +138,8 @@ public class BaseSwingFrameApp extends JFrame implements IProcessingApp {
 		
 	}
 	
-	private void clearList() {
+	public void clearList() {
+		System.out.println("CLEAR LIST");
 			  newModel = new DefaultListModel();
 			  list.setModel(newModel);
 	        

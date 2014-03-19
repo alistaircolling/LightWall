@@ -36,16 +36,19 @@ public class LightWall extends BaseSwingFrameApp {
 	PApplet win;
 
 	// --- added for matrix
-	int MATRIX_COLS = 16;
+	int MATRIX_COLS = 40;
 	int MATRIX_ROWS = 25;
 
 	LEDMatrix matrix;
 
 	private JPanel contentPane;
 	private JTextField txtSongName;
+	private boolean swappingSketch;
+	private int currentSketch = 0;
+	
 
 	// FIXME add chatserver class
-	//private ChatServer chatServer;
+	// private ChatServer chatServer;
 
 	/**
 	 * Launch the application.
@@ -56,7 +59,6 @@ public class LightWall extends BaseSwingFrameApp {
 				try {
 					// AppSoundDemoSwing frame = new AppSoundDemoSwing();
 					// frame.setVisible(true);
-
 					// ProcessingAppLauncher procLaunch = new
 					// ProcessingAppLauncher();
 					// NOTE: Using Minim version
@@ -90,14 +92,69 @@ public class LightWall extends BaseSwingFrameApp {
 			e1.printStackTrace();
 		}
 
+		setupButtonListeners();
+
+	}
+
+	private void setupButtonListeners() {
+
+		btnDemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clearList();
+			}
+		});
+
+		
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				startUp();
+			}
+		});
+	
+
+	}
+
+	// FIXME is being used to test swapping sketches at the moment
+	protected void startUp() {
+		System.out.println("Start!");
+		// TODO Auto-generated method stub
+		int newIndex = 1;
+		if (newIndex == currentSketch){
+			newIndex = 0;
+		}
+		swapSketch(newIndex);
+	}
+
+	// will be extended to add more functionality e.g. next, target sketch index
+	// or by name etc
+	private void swapSketch(int newIndex) {
+		//use this to stop the canvas loading 
+		swappingSketch = true;
+		//kill current window
+		
+		win = null;
+		
+		switch (newIndex) {
+		case 0:
+			win = new ZigSketch(proc, "Zig", 500, 300);
+			break;
+		case 1:
+			win  = new RedSketch(proc, "RED", 500, 300);
+			break;
+
+		default:
+			break;
+		}
+		currentSketch = newIndex;
+		swappingSketch = false;
 	}
 
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-		//		.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 
-		 .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
@@ -111,7 +168,7 @@ public class LightWall extends BaseSwingFrameApp {
 		loadDefaultMatrix();
 
 		// -- TO CONNECT --->>>
-		 matrix.connectToController();
+		// matrix.connectToController();
 
 		this.setLocation(0, 0);
 		matrix.refresh();
@@ -124,11 +181,12 @@ public class LightWall extends BaseSwingFrameApp {
 
 		int newX = matrix.ui.getLocation().x;
 		int newY = matrix.ui.getLocation().x;
-//		win.setLocation(newX, newY);
+		// win.setLocation(newX, newY);
 
 	}
 
 	void loadFromCanvas() {
+		if (!swappingSketch){
 		for (int iH = 0; iH < matrix.rows(); iH++) {
 			for (int iW = 0; iW < matrix.cols(); iW++) {
 				int cp = win.get((iW), (iH));
@@ -141,11 +199,12 @@ public class LightWall extends BaseSwingFrameApp {
 			}
 		}
 		matrix.refresh();
+		}
 	}
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
-	//	win = new DropsRan(proc, "Processing sketch", 500, 300);
+		// win = new DropsRan(proc, "Processing sketch", 500, 300);
 		win = new ZigSketch(proc, "Zig", 500, 300);
 
 		// win.setVisible(false);
@@ -161,8 +220,8 @@ public class LightWall extends BaseSwingFrameApp {
 	// this is used for websocket connections
 	private void setupServer() throws InterruptedException, IOException {
 		// FIXME add the Chatserver code
-//		 chatServer = new ChatServer(8885);
-//		 chatServer.main(null);
+		// chatServer = new ChatServer(8885);
+		// chatServer.main(null);
 
 	}
 
