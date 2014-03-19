@@ -95,9 +95,9 @@ public class LightWall extends BaseSwingFrameApp {
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+		//		.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 
-		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+		 .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
@@ -111,7 +111,7 @@ public class LightWall extends BaseSwingFrameApp {
 		loadDefaultMatrix();
 
 		// -- TO CONNECT --->>>
-		// matrix.connectToController();
+		 matrix.connectToController();
 
 		this.setLocation(0, 0);
 		matrix.refresh();
