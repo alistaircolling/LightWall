@@ -19,6 +19,7 @@ public class ColorFader extends ExtraWindow {
 	// the gradient should be somewhat wider than the screen
 	public static final float GRADIENT_WIDTH = 1000;
 	public static final float GRADIENT_HEIGHT = 700;
+	private static final int MIN_LINES = 3;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -51,7 +52,8 @@ public class ColorFader extends ExtraWindow {
 		ArrayList<Integer> addedNums = new ArrayList<Integer>();
 		// create the gradiemnt
 		grad = new ColorGradient();
-		grad.setInterpolator(new DecimatedInterpolation(50));
+	//	grad.setInterpolator(new DecimatedInterpolation(50));
+		grad.setInterpolator(new CosineInterpolation());
 		if (lines.size() > 0) {
 
 			// iterate thru lines and add them to the gradient
@@ -70,10 +72,11 @@ public class ColorFader extends ExtraWindow {
 			}
 
 			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
-			for (int i = 5; i < 1000; i++) {
+			//target middle of grad
+			for (int i = 475; i < 525; i++) {
 				TColor col = listToDraw.get(i);
 				stroke(col.toARGB());
-				line(i - 5, 0, i - 5, GRADIENT_HEIGHT);
+				line(i - 475, 0, i - 475, GRADIENT_HEIGHT);
 			}
 			
 			
@@ -99,6 +102,9 @@ public class ColorFader extends ExtraWindow {
 				i.remove();
 				System.out.println("removed line total lines:" + lines.size());
 			}
+		}
+		if (lines.size()<MIN_LINES){
+			addNewLine();
 		}
 
 	}
