@@ -1,31 +1,17 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import processing.core.PApplet;
 
 import com.hookedup.led.LEDMatrix;
-import com.hookedup.processing.EQLevels;
-import com.hookedup.processing.ExtraWindow;
 import com.hookedup.processing.ProcessingAppLauncherMinim;
-
-import ddf.minim.AudioPlayer;
-import ddf.minim.Minim;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JTextField;
 
 public class LightWall extends BaseSwingFrameApp {
 
@@ -45,11 +31,11 @@ public class LightWall extends BaseSwingFrameApp {
 	private JTextField txtSongName;
 	private boolean swappingSketch;
 	private int currentSketch = 0;
-	
 
 	// FIXME add chatserver class
 	// private ChatServer chatServer;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -104,13 +90,11 @@ public class LightWall extends BaseSwingFrameApp {
 			}
 		});
 
-		
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				startUp();
 			}
 		});
-	
 
 	}
 
@@ -119,7 +103,7 @@ public class LightWall extends BaseSwingFrameApp {
 		System.out.println("Start!");
 		// TODO Auto-generated method stub
 		int newIndex = 1;
-		if (newIndex == currentSketch){
+		if (newIndex == currentSketch) {
 			newIndex = 0;
 		}
 		swapSketch(newIndex);
@@ -128,18 +112,18 @@ public class LightWall extends BaseSwingFrameApp {
 	// will be extended to add more functionality e.g. next, target sketch index
 	// or by name etc
 	private void swapSketch(int newIndex) {
-		//use this to stop the canvas loading 
+		// use this to stop the canvas loading
 		swappingSketch = true;
-		//kill current window
-		
+		// kill current window
+
 		win = null;
-		
+
 		switch (newIndex) {
 		case 0:
 			win = new ZigSketch(proc, "Zig", 500, 300);
 			break;
 		case 1:
-			win  = new RedSketch(proc, "RED", 500, 300);
+			win = new ColorFader(proc, "RED", 500, 300);
 			break;
 
 		default:
@@ -186,27 +170,33 @@ public class LightWall extends BaseSwingFrameApp {
 	}
 
 	void loadFromCanvas() {
-		if (!swappingSketch){
-		for (int iH = 0; iH < matrix.rows(); iH++) {
-			for (int iW = 0; iW < matrix.cols(); iW++) {
-				int cp = win.get((iW), (iH));
-				int rr = (int) proc.red(cp);
-				int red = (int) proc.red(cp);
-				int green = (int) proc.green(cp);
-				int blue = (int) proc.blue(cp);
+		try {
+			if (!swappingSketch) {
+				for (int iH = 0; iH < matrix.rows(); iH++) {
+					for (int iW = 0; iW < matrix.cols(); iW++) {
+						int cp = win.get((iW), (iH));
+						int rr = (int) proc.red(cp);
+						int red = (int) proc.red(cp);
+						int green = (int) proc.green(cp);
+						int blue = (int) proc.blue(cp);
 
-				matrix.setRGB(iW, iH, red, green, blue);
+						matrix.setRGB(iW, iH, red, green, blue);
+					}
+				}
+				matrix.refresh();
 			}
+			
+		} catch (Exception e) {
+				System.out.println("unable to load from Canvas");
 		}
-		matrix.refresh();
-		}
+		
 	}
 
 	void setupExtraWindow() {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsRan(proc, "Processing sketch", 500, 300);
-		win = new ZigSketch(proc, "Zig", 500, 300);
-
+		// win = new ZigSketch(proc, "Zig", 500, 300);
+		win = new ColorFader(proc, "ColorFader", 500, 300);
 		// win.setVisible(false);
 
 	}
