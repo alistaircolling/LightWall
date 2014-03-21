@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import toxi.color.ColorGradient;
 import toxi.color.ColorList;
 import toxi.color.TColor;
@@ -32,6 +33,7 @@ public class ColorFader extends ExtraWindow {
 	private float chanceOfNewLine = 500;// how often a new line is created
 	private ArrayList<ColoredLine> lines;
 	private int maxBounces = 5;
+	private PImage lastScreen;
 
 	public ColorFader(PApplet theApplet, String theName, int theWidth,
 			int theHeight) {
@@ -40,8 +42,10 @@ public class ColorFader extends ExtraWindow {
 	}
 
 	public void setup() {
+		smooth();
 		lines = new ArrayList<ColoredLine>();
 		currColIndex = 0;
+		lastScreen = get();
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
 		addNewLine();
@@ -74,8 +78,31 @@ public class ColorFader extends ExtraWindow {
 			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
 			//target middle of grad
 			for (int i = 475; i < 525; i++) {
-				TColor col = listToDraw.get(i);
-				stroke(col.toARGB());
+				
+				float ratio = 1;
+				
+				TColor targetCol = listToDraw.get(i);
+				int lastCol = lastScreen.get(i, 0);
+				TColor tLastCol = TColor.newARGB(lastCol);
+				
+				float lastRed = tLastCol.red();
+				float lastGreen = tLastCol.green();
+				float lastBlue = tLastCol.blue();
+				
+				
+				float newRed = targetCol.red();
+				float newGreen = targetCol.green();
+				float newBlue = targetCol.blue();
+				
+				int red = (int)Math.abs((ratio * newRed) + ((1 - ratio) * lastRed));
+				int green = (int)Math.abs((ratio * newGreen) + ((1 - ratio) * lastGreen));
+				int blue = (int)Math.abs((ratio * newBlue) + ((1 - ratio) * lastBlue));
+				
+				
+				
+				
+				stroke(targetCol.toARGB());
+			//	stroke(red, green, blue);
 				line(i - 475, 0, i - 475, GRADIENT_HEIGHT);
 			}
 			
@@ -90,6 +117,8 @@ public class ColorFader extends ExtraWindow {
 			System.out.println("new line!");
 			addNewLine();
 		}
+		
+		lastScreen = get();
 
 	}
 
