@@ -11,6 +11,7 @@ import toxi.geom.Vec2D;
 import toxi.math.CosineInterpolation;
 import toxi.physics2d.VerletParticle2D;
 import toxi.physics2d.VerletPhysics2D;
+import toxi.physics2d.behaviors.AttractionBehavior;
 
 import com.hookedup.processing.ExtraWindow;
 
@@ -23,6 +24,7 @@ public class ColorFader extends ExtraWindow {
 	public static final float GRADIENT_WIDTH = 1000;
 	public static final float GRADIENT_HEIGHT = 700;
 	private static final int MIN_LINES = 3;
+	private static final int MAX_LINES = 5000;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -55,11 +57,12 @@ public class ColorFader extends ExtraWindow {
 		lastScreen = get();
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
-		addNewLine();
+			
+			addNewLine();
 	}
 
 	public void draw() {
-
+//		background(255);
 		
 		physics.update();
 		
@@ -79,7 +82,7 @@ public class ColorFader extends ExtraWindow {
 			  noStroke();
 		    fill(line.color.toARGB());
 		    line.particle.update();
-		    ellipse(line.particle.x,line.particle.y,5,5);
+		    ellipse(line.particle.x,line.particle.y,10,10);
 		  }
 		
 		/*if (lines.size() > 0) {
@@ -158,10 +161,15 @@ public class ColorFader extends ExtraWindow {
 			addNewLine();
 		}
 
+		if (lines.size()>MAX_LINES){
+			lines.remove(0);
+		}
+		
+		
 	}
 
 	private void addNewLine() {
-
+			
 		// add color
 		ColoredLine line = new ColoredLine(colorList.getRandom());
 		
@@ -172,7 +180,8 @@ public class ColorFader extends ExtraWindow {
 		
 		
 		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
-		line.particle.add(ranVect.scale(100));//particle speed can add var
+		line.particle.add(ranVect.scale(50));//particle speed can add var
+		physics.addBehavior(new AttractionBehavior(line.particle, 100, 0.1f, 0.01f));
 		physics.addParticle(line.particle);
 		
 		
