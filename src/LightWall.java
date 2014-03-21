@@ -46,7 +46,7 @@ public class LightWall extends BaseSwingFrameApp {
 					// AppSoundDemoSwing frame = new AppSoundDemoSwing();
 					// frame.setVisible(true);
 					// ProcessingAppLauncher procLaunch = new
-					// ProcessingAppLauncher();
+					// ProcessingAppLauncher();*
 					// NOTE: Using Minim version
 					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
 					procLaunch.launch("LightWall");

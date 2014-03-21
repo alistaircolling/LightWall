@@ -1,5 +1,6 @@
 import toxi.color.TColor;
 import toxi.geom.Vec2D;
+import toxi.physics2d.VerletParticle2D;
 
 
 public class ColoredLine extends Object {
@@ -10,6 +11,7 @@ public class ColoredLine extends Object {
 	public Vec2D currentPos;
 	public boolean removeMe;
 	private float howFast = .5f;
+	public VerletParticle2D particle;
 
 	public ColoredLine(TColor random) {
 		// TODO Auto-generated constructor stub
