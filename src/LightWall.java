@@ -123,7 +123,7 @@ public class LightWall extends BaseSwingFrameApp {
 			win = new ZigSketch(proc, "Zig", 500, 300);
 			break;
 		case 1:
-			win = new ColorFader(proc, "RED", 500, 300);
+			win = new ColorFader(proc, "RED", 1000, 700);
 			break;
 
 		default:
@@ -196,7 +196,7 @@ public class LightWall extends BaseSwingFrameApp {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsRan(proc, "Processing sketch", 500, 300);
 		// win = new ZigSketch(proc, "Zig", 500, 300);
-		win = new ColorFader(proc, "ColorFader", 500, 300);
+		win = new ColorFader(proc, "ColorFader", 1000, 700);
 		// win.setVisible(false);
 
 	}

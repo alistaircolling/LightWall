@@ -9,6 +9,7 @@ public class ColoredLine extends Object {
 	public int bounces;
 	public Vec2D currentPos;
 	public boolean removeMe;
+	private float howFast = .5f;
 
 	public ColoredLine(TColor random) {
 		// TODO Auto-generated constructor stub
@@ -52,7 +53,7 @@ public class ColoredLine extends Object {
 		}
 		
 		//add the movement vector to current position
-		currentPos = currentPos.add(vector);
+		currentPos = currentPos.add(vector.scale(howFast));
 		
 		
 		

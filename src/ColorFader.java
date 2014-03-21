@@ -1,12 +1,13 @@
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Iterator;
 
 import processing.core.PApplet;
 import toxi.color.ColorGradient;
 import toxi.color.ColorList;
-import toxi.color.ReadonlyTColor;
 import toxi.color.TColor;
 import toxi.geom.Vec2D;
+import toxi.math.CosineInterpolation;
+import toxi.math.DecimatedInterpolation;
 
 import com.hookedup.processing.ExtraWindow;
 
@@ -16,18 +17,18 @@ public class ColorFader extends ExtraWindow {
 	public static final float CHANCE_OF_LOTS = 100;
 	private static final float MAX_MANY_BOUNCES = 100;
 	// the gradient should be somewhat wider than the screen
-	public static final float GRADIENT_WIDTH = 50;
-	public static final float GRADIENT_HEIGHT = 25;
+	public static final float GRADIENT_WIDTH = 1000;
+	public static final float GRADIENT_HEIGHT = 700;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
 	private ColorGradient grad;
 	private TColor bgCol;
-	private ColorList l;
+	private ColorList listToDraw;
 	private double currColIndex;
 	private ColoredLine newColor;
 	private double moveDir = .1f;
-	private float chanceOfNewLine = 100;// how often a new line is created
+	private float chanceOfNewLine = 500;// how often a new line is created
 	private ArrayList<ColoredLine> lines;
 	private int maxBounces = 5;
 
@@ -42,93 +43,62 @@ public class ColorFader extends ExtraWindow {
 		currColIndex = 0;
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
-		// createGradient();
-		addRandomColor();
-
-	}
-
-	private void addRandomColor() {
-		grad = new ColorGradient();
-		// TODO add new
-		bgCol = colorList.getRandom();
-		TColor lineCol = colorList.getRandom();
-		// choose another one if the same!
-		while (lineCol == bgCol) {
-			lineCol = colorList.getRandom();
-		}
-		newColor = new ColoredLine(lineCol);
-		double rand = Math.random();
-		double xVect = (rand * .1f) - .05f;
-		System.out.println(rand + " XVECT:" + xVect);
-		// newColor.xVect = xVect;
-		// if (xVect < 0) {
-		grad.addColorAt(0, newColor.color);
-		grad.addColorAt(5, bgCol);
-		// } else {
-		// grad.addColorAt(35, bgCol);
-		// grad.addColorAt(40, newColor.color);
-		// }
-
-	}
-
-	private void createGradient() {
-		grad = new ColorGradient();
-		// make a background color
-		TColor bgCol = TColor.GREEN.copy();
-		grad.addColorAt(0, bgCol);
-		grad.addColorAt(40, bgCol);
-
+		addNewLine();
 	}
 
 	public void draw() {
 
+		ArrayList<Integer> addedNums = new ArrayList<Integer>();
+		// create the gradiemnt
+		grad = new ColorGradient();
+		grad.setInterpolator(new DecimatedInterpolation(50));
+		if (lines.size() > 0) {
+
+			// iterate thru lines and add them to the gradient
+			for (int i = 0; i < lines.size(); i++) {
+				ColoredLine line = lines.get(i);
+				/*
+				 * // code for just drawing lines stroke(line.color.toARGB());
+				 * // shift 5 left line(line.currentPos.x - 5, 0,
+				 * line.currentPos.x - 5, ColorFader.GRADIENT_HEIGHT);
+				 */
+				// check we havent already added a line here
+				if (!addedNums.contains((int) line.currentPos.x)) {
+					grad.addColorAt(line.currentPos.x, line.color);
+					addedNums.add((int) line.currentPos.x);
+				}
+			}
+
+			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
+			for (int i = 5; i < 1000; i++) {
+				TColor col = listToDraw.get(i);
+				stroke(col.toARGB());
+				line(i - 5, 0, i - 5, GRADIENT_HEIGHT);
+			}
+			
+			
+		} else {
+			System.out.println(" no lines");
+		}
+
+		updateLines();
 		int random = (int) random(0, chanceOfNewLine);
 		if (random == 1) {
 			System.out.println("new line!");
 			addNewLine();
 		}
 
-		updateLines();
-		// create the gradiemnt
-		grad = new ColorGradient();
-		
-		// iterate thru lines and add them to the gradient
-		for (int i = 0; i < lines.size(); i++) {
-			ColoredLine line = lines.get(i);
-			//grad.addColorAt(line.currentPos, line.color);
-			stroke(line.color.toARGB());
-			//shift 5 left 
-			line(line.currentPos.x-5, 0, line.currentPos.x-5, ColorFader.GRADIENT_HEIGHT);
-		}
-
-/*		grad.addColorAt((float) currColIndex, newColor.color);
-		grad.addColorAt((float) (currColIndex + 4), bgCol);
-
-		grad.addColorAt((float) (currColIndex - 4), bgCol);
-
-		l = grad.calcGradient(0, 40);
-		// updateGrads();
-
-		for (int i = 0; i < 40; i++) {
-			TColor lineCol = l.get(i);
-			stroke(lineCol.toARGB());
-			line(i, 0, i, 25);
-		}
-		if (currColIndex < 40) {
-			currColIndex += moveDir;
-		} else {
-			moveDir = 0 - .1f;
-			currColIndex += moveDir;
-			// currColIndex = 0;
-			// addRandomColor();
-		}
-*/
 	}
 
 	private void updateLines() {
-		for (int i = 0; i < lines.size(); i++) {
-			ColoredLine line = lines.get(i);
+
+		for (Iterator i = lines.iterator(); i.hasNext();) {
+			ColoredLine line = (ColoredLine) i.next();
 			line.update();
+			if (line.removeMe) {
+				i.remove();
+				System.out.println("removed line total lines:" + lines.size());
+			}
 		}
 
 	}
@@ -163,16 +133,6 @@ public class ColorFader extends ExtraWindow {
 			line.bounces = manyBounces;
 		}
 		lines.add(line);
-
-	}
-
-	private void updateGrads() {
-
-		for (int i = 0; i < l.size(); i++) {
-			// get each color in the list
-
-		}
-		// TODO Auto-generated method stub
 
 	}
 
