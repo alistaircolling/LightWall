@@ -11,10 +11,7 @@ public class ColoredLine extends Object {
 	public Vec2D currentPos;
 	public boolean removeMe;
 	private float howFast = .05f;
-<<<<<<< HEAD
-=======
 	public VerletParticle2D particle;
->>>>>>> tuborg
 
 	public ColoredLine(TColor random) {
 		// TODO Auto-generated constructor stub
