@@ -11,7 +11,7 @@ import toxi.math.DecimatedInterpolation;
 
 import com.hookedup.processing.ExtraWindow;
 
-public class ColorFader extends ExtraWindow {
+public class ColorFaderSlow extends ExtraWindow {
 
 	// the chance of getting loads of bounces
 	public static final float CHANCE_OF_LOTS = 100;
@@ -33,7 +33,7 @@ public class ColorFader extends ExtraWindow {
 	private ArrayList<ColoredLine> lines;
 	private int maxBounces = 5;
 
-	public ColorFader(PApplet theApplet, String theName, int theWidth,
+	public ColorFaderSlow(PApplet theApplet, String theName, int theWidth,
 			int theHeight) {
 		super(theApplet, theName, theWidth, theHeight);
 

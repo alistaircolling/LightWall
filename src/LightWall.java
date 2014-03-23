@@ -123,7 +123,7 @@ public class LightWall extends BaseSwingFrameApp {
 			win = new ZigSketch(proc, "Zig", 500, 300);
 			break;
 		case 1:
-			win = new ColorFader(proc, "RED", 1000, 700);
+			win = new ColorFaderSlow(proc, "CFS", 1000, 700);
 			break;
 
 		default:
@@ -136,9 +136,9 @@ public class LightWall extends BaseSwingFrameApp {
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+	//			.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 
-		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+		 .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
@@ -152,7 +152,7 @@ public class LightWall extends BaseSwingFrameApp {
 		loadDefaultMatrix();
 
 		// -- TO CONNECT --->>>
-		// matrix.connectToController();
+		 matrix.connectToController();
 
 		this.setLocation(0, 0);
 		matrix.refresh();
@@ -196,7 +196,7 @@ public class LightWall extends BaseSwingFrameApp {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsRan(proc, "Processing sketch", 500, 300);
 		// win = new ZigSketch(proc, "Zig", 500, 300);
-		win = new ColorFader(proc, "ColorFader", 1000, 700);
+		win = new ColorFaderSlow(proc, "ColorFader", 1000, 700);
 		// win.setVisible(false);
 
 	}
