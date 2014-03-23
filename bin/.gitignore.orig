@@ -28,9 +28,14 @@
 /Zig.class
 /ZigList.class
 /ZigSketch.class
+<<<<<<< HEAD
+/ghostAnim.gif
+/org
+=======
 /LightWall$2.class
 /LightWall$3.class
 /RedSketch.class
 /ColorFader.class
 /ColoredLine.class
 /ColorFaderTuborg.class
+>>>>>>> tuborg

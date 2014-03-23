@@ -15,16 +15,16 @@ import toxi.physics2d.behaviors.AttractionBehavior;
 
 import com.hookedup.processing.ExtraWindow;
 
-public class ColorFader extends ExtraWindow {
+public class ColorFaderTuborg extends ExtraWindow {
 
 	// the chance of getting loads of bounces
 	public static final float CHANCE_OF_LOTS = 100;
 	private static final float MAX_MANY_BOUNCES = 100;
 	// the gradient should be somewhat wider than the screen
-	public static final float GRADIENT_WIDTH = 1000;
-	public static final float GRADIENT_HEIGHT = 700;
-	private static final int MIN_LINES = 3;
-	private static final int MAX_LINES = 5000;
+	public static final float GRADIENT_WIDTH = 500;
+	public static final float GRADIENT_HEIGHT = 350;
+	private static final int MIN_LINES = 20;
+	private static final int MAX_LINES = 40;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -40,7 +40,7 @@ public class ColorFader extends ExtraWindow {
 	private PImage lastScreen;
 	private VerletPhysics2D physics;
 
-	public ColorFader(PApplet theApplet, String theName, int theWidth,
+	public ColorFaderTuborg(PApplet theApplet, String theName, int theWidth,
 			int theHeight) {
 		super(theApplet, theName, theWidth, theHeight);
 
@@ -57,8 +57,10 @@ public class ColorFader extends ExtraWindow {
 		lastScreen = get();
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
-			
-			addNewLine();
+			for (int i = 0; i < 40; i++) {
+				
+				addNewLine();
+			}
 	}
 
 	public void draw() {
@@ -72,10 +74,11 @@ public class ColorFader extends ExtraWindow {
 		// grad.setInterpolator(new DecimatedInterpolation(50));
 		grad.setInterpolator(new CosineInterpolation());
 		
-		//move to the top left
-		
 		//iterate thru all lines (particles actually)
+		//move everything half left and up
+		pushMatrix();
 		
+		translate(-500, -350);
 		 // draw all particles
 		  for(Iterator i=lines.iterator(); i.hasNext();) {
 			  ColoredLine line = (ColoredLine) i.next();
@@ -86,7 +89,7 @@ public class ColorFader extends ExtraWindow {
 		    line.particle.update();
 		    ellipse(line.particle.x,line.particle.y,10,10);
 		  }
-		
+		popMatrix();
 		/*if (lines.size() > 0) {
 
 			// iterate thru lines and add them to the gradient
@@ -105,14 +108,6 @@ public class ColorFader extends ExtraWindow {
 			}
 
 			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
-<<<<<<< HEAD
-			//target middle of grad
-			//for (int i = 0; i < 1000; i++) {
-				for (int i = 475; i < 525; i++) {
-				TColor col = listToDraw.get(i);
-				stroke(col.toARGB());
-				line(i - 475, 0, i - 475, GRADIENT_HEIGHT);
-=======
 			// target middle of grad
 			for (int i = 0; i < 1000; i++) {
 
@@ -140,7 +135,6 @@ public class ColorFader extends ExtraWindow {
 				stroke(targetCol.toARGB());
 				// stroke(red, green, blue);
 				line(i, 0, i, GRADIENT_HEIGHT);
->>>>>>> tuborg
 			}
 
 		} else {
@@ -155,6 +149,13 @@ public class ColorFader extends ExtraWindow {
 		}
 
 		lastScreen = get();
+		if (lines.size()>MAX_LINES){
+			System.out.print("REMOVED LINE");
+			lines.remove(0);
+		}
+		
+	//	System.out.println("TOT lines: "+lines.size());
+		
 
 	}
 
@@ -182,10 +183,7 @@ public class ColorFader extends ExtraWindow {
 	private void addNewLine() {
 			
 		// add color
-		//get a near one
-		TColor newCol = colorList.getRandom();
-		//not sure what the get analog means!
-		ColoredLine line = new ColoredLine(newCol.getAnalog(.25f, 100));
+		ColoredLine line = new ColoredLine(colorList.getRandom().getAnalog(2000, 3000).lighten(100).setAlpha(random(1)));
 		
 		
 		// add vector that is -1 to +1
@@ -193,9 +191,9 @@ public class ColorFader extends ExtraWindow {
 		line.vector = Vec2D.randomVector();
 		
 		
-		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
-		line.particle.add(ranVect.scale(50));//particle speed can add var
-		physics.addBehavior(new AttractionBehavior(line.particle, 100, 0.1f, 0.01f));
+		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(GRADIENT_WIDTH));
+		line.particle.add(ranVect.scale(2));//particle speed can add var
+		physics.addBehavior(new AttractionBehavior(line.particle, 10, 0.1f, 0.01f));
 		physics.addParticle(line.particle);
 		
 		

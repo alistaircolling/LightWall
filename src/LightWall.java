@@ -46,7 +46,7 @@ public class LightWall extends BaseSwingFrameApp {
 					// AppSoundDemoSwing frame = new AppSoundDemoSwing();
 					// frame.setVisible(true);
 					// ProcessingAppLauncher procLaunch = new
-					// ProcessingAppLauncher();
+					// ProcessingAppLauncher();*
 					// NOTE: Using Minim version
 					ProcessingAppLauncherMinim procLaunch = new ProcessingAppLauncherMinim();
 					procLaunch.launch("LightWall");
@@ -196,7 +196,11 @@ public class LightWall extends BaseSwingFrameApp {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsRan(proc, "Processing sketch", 500, 300);
 		// win = new ZigSketch(proc, "Zig", 500, 300);
+<<<<<<< HEAD
 		win = new ColorFaderSlow(proc, "ColorFader", 1000, 700);
+=======
+		win = new ColorFaderTuborg(proc, "ColorFader", 1000, 700);
+>>>>>>> tuborg
 		// win.setVisible(false);
 
 	}
