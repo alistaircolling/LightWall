@@ -9,7 +9,7 @@ public class ColoredLine extends Object {
 	public int bounces;
 	public Vec2D currentPos;
 	public boolean removeMe;
-	private float howFast = .5f;
+	private float howFast = .05f;
 
 	public ColoredLine(TColor random) {
 		// TODO Auto-generated constructor stub
