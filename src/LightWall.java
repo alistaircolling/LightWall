@@ -196,7 +196,7 @@ public class LightWall extends BaseSwingFrameApp {
 		// win = new MyExtraWindow(proc, "Matrix Setup", 0, 0);
 		// win = new DropsRan(proc, "Processing sketch", 500, 300);
 		// win = new ZigSketch(proc, "Zig", 500, 300);
-		win = new ColorFader(proc, "ColorFader", 1000, 700);
+		win = new ColorFaderTuborg(proc, "ColorFader", 1000, 700);
 		// win.setVisible(false);
 
 	}
