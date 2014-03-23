@@ -144,6 +144,8 @@ public class ColorFader extends ExtraWindow {
 		}
 
 		lastScreen = get();
+		fill(100,100,100,30);
+		rect(0,0,1000,700);
 
 	}
 
@@ -181,7 +183,7 @@ public class ColorFader extends ExtraWindow {
 		
 		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
 		line.particle.add(ranVect.scale(50));//particle speed can add var
-		physics.addBehavior(new AttractionBehavior(line.particle, 100, 0.1f, 0.01f));
+		physics.addBehavior(new AttractionBehavior(line.particle, 100, -0.1f, 0.01f));
 		physics.addParticle(line.particle);
 		
 		
