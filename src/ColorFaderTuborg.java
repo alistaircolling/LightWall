@@ -24,7 +24,7 @@ public class ColorFaderTuborg extends ExtraWindow {
 	public static final float GRADIENT_WIDTH = 1000;
 	public static final float GRADIENT_HEIGHT = 700;
 	private static final int MIN_LINES = 3;
-	private static final int MAX_LINES = 5000;
+	private static final int MAX_LINES = 10;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -144,6 +144,13 @@ public class ColorFaderTuborg extends ExtraWindow {
 		}
 
 		lastScreen = get();
+		if (lines.size()>MAX_LINES){
+			System.out.print("REMOVED LINE");
+			lines.remove(0);
+		}
+		
+	//	System.out.println("TOT lines: "+lines.size());
+		
 
 	}
 
