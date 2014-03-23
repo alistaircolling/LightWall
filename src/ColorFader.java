@@ -72,6 +72,8 @@ public class ColorFader extends ExtraWindow {
 		// grad.setInterpolator(new DecimatedInterpolation(50));
 		grad.setInterpolator(new CosineInterpolation());
 		
+		//move to the top left
+		
 		//iterate thru all lines (particles actually)
 		
 		 // draw all particles
@@ -171,7 +173,10 @@ public class ColorFader extends ExtraWindow {
 	private void addNewLine() {
 			
 		// add color
-		ColoredLine line = new ColoredLine(colorList.getRandom());
+		//get a near one
+		TColor newCol = colorList.getRandom();
+		//not sure what the get analog means!
+		ColoredLine line = new ColoredLine(newCol.getAnalog(.25f, 100));
 		
 		
 		// add vector that is -1 to +1

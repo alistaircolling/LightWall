@@ -21,10 +21,10 @@ public class ColorFaderTuborg extends ExtraWindow {
 	public static final float CHANCE_OF_LOTS = 100;
 	private static final float MAX_MANY_BOUNCES = 100;
 	// the gradient should be somewhat wider than the screen
-	public static final float GRADIENT_WIDTH = 1000;
-	public static final float GRADIENT_HEIGHT = 700;
-	private static final int MIN_LINES = 3;
-	private static final int MAX_LINES = 10;
+	public static final float GRADIENT_WIDTH = 500;
+	public static final float GRADIENT_HEIGHT = 350;
+	private static final int MIN_LINES = 20;
+	private static final int MAX_LINES = 40;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -57,8 +57,10 @@ public class ColorFaderTuborg extends ExtraWindow {
 		lastScreen = get();
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
-			
-			addNewLine();
+			for (int i = 0; i < 40; i++) {
+				
+				addNewLine();
+			}
 	}
 
 	public void draw() {
@@ -73,7 +75,10 @@ public class ColorFaderTuborg extends ExtraWindow {
 		grad.setInterpolator(new CosineInterpolation());
 		
 		//iterate thru all lines (particles actually)
+		//move everything half left and up
+		pushMatrix();
 		
+		translate(-500, -350);
 		 // draw all particles
 		  for(Iterator i=lines.iterator(); i.hasNext();) {
 			  ColoredLine line = (ColoredLine) i.next();
@@ -84,7 +89,7 @@ public class ColorFaderTuborg extends ExtraWindow {
 		    line.particle.update();
 		    ellipse(line.particle.x,line.particle.y,10,10);
 		  }
-		
+		popMatrix();
 		/*if (lines.size() > 0) {
 
 			// iterate thru lines and add them to the gradient
@@ -178,7 +183,7 @@ public class ColorFaderTuborg extends ExtraWindow {
 	private void addNewLine() {
 			
 		// add color
-		ColoredLine line = new ColoredLine(colorList.getRandom());
+		ColoredLine line = new ColoredLine(colorList.getRandom().getAnalog(2000, 3000).lighten(100).setAlpha(random(1)));
 		
 		
 		// add vector that is -1 to +1
@@ -186,9 +191,9 @@ public class ColorFaderTuborg extends ExtraWindow {
 		line.vector = Vec2D.randomVector();
 		
 		
-		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
-		line.particle.add(ranVect.scale(50));//particle speed can add var
-		physics.addBehavior(new AttractionBehavior(line.particle, 100, 0.1f, 0.01f));
+		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(GRADIENT_WIDTH));
+		line.particle.add(ranVect.scale(2));//particle speed can add var
+		physics.addBehavior(new AttractionBehavior(line.particle, 10, 0.1f, 0.01f));
 		physics.addParticle(line.particle);
 		
 		
