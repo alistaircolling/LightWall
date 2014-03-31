@@ -111,7 +111,7 @@ public class LightWall extends BaseSwingFrameApp {
 		loadDefaultMatrix();
 
 		// -- TO CONNECT --->>>
-		matrix.connectToController();
+	//	matrix.connectToController();
 
 		this.setLocation(0, 0);
 		matrix.refresh();
