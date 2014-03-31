@@ -1,11 +1,9 @@
-import java.io.Console;
-
 import org.openkinect.processing.Kinect;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
 import toxi.color.TColor;
+import SimpleOpenNI.*;
 
 import com.hookedup.processing.ExtraWindow;
 
@@ -16,6 +14,7 @@ public class BasicKinectApplet extends ExtraWindow {
 	
 	private int threshold = 500;
 	public boolean kinectRunning;
+	private SimpleOpenNI context;
 
 	
 	public BasicKinectApplet(PApplet theApplet, String theName, int theWidth,
@@ -30,11 +29,24 @@ public class BasicKinectApplet extends ExtraWindow {
 		frameRate(10);
 		println("BasicKinectApplet setting up kinect");
 		createLookupTable();
-		kinect = new Kinect(this);
-		kinect.start();
-		kinect.enableRGB(true);
-		kinect.enableDepth(true);
-		kinect.processDepthImage(true);
+//		kinect = new Kinect(this);
+//		kinect.start();
+//		kinect.enableRGB(true);
+//		kinect.enableDepth(true);
+//		kinect.processDepthImage(true);
+		context = new SimpleOpenNI(this);
+		  if(context.isInit() == false)
+		  {
+		     println("Can't init SimpleOpenNI, maybe the camera is not connected!"); 
+		     exit();
+		     return;  
+		  }
+		  
+		  // enable depthMap generation 
+		  context.enableDepth();
+		   
+		  // enable skeleton generation for all joints
+		  context.enableUser();
 		println("==========Kinect set up=============");
 		kinectRunning = true;
 	}
@@ -57,10 +69,13 @@ public class BasicKinectApplet extends ExtraWindow {
 
 	public void draw() {
 		background(0);
-		PImage img = kinect.getVideoImage();
+		//PImage img = kinect.getVideoImage();
 		// image(img, 0, 0);
-		drawPoints();
+		//drawPoints();
 
+		
+		 context.update();
+		 image(context.userImage(),0,0);
 	}
 
 	private void drawPoints() {

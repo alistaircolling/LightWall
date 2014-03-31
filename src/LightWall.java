@@ -1,33 +1,17 @@
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import toxi.color.TColor;
 
 import com.hookedup.led.LEDMatrix;
-import com.hookedup.processing.EQLevels;
-import com.hookedup.processing.ExtraWindow;
 import com.hookedup.processing.ProcessingAppLauncherMinim;
-
-import ddf.minim.AudioPlayer;
-import ddf.minim.Minim;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JTextField;
 
 public class LightWall extends BaseSwingFrameApp {
 

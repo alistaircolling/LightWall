@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/jogl.jar"/>
 	<classpathentry kind="lib" path="lib/opengl.jar"/>
+	<classpathentry kind="lib" path="lib/SimpleOpenNI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
