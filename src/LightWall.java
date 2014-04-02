@@ -136,9 +136,9 @@ public class LightWall extends BaseSwingFrameApp {
 	void loadDefaultMatrix() {
 		System.out.println("load default matrix");
 		String tmpResult = matrix
-				.loadMatrixFile("/Users/acolling/Desktop/default.xml");
+		//		.loadMatrixFile("/Users/acolling/Desktop/default.xml");
 
-		// .loadMatrixFile("C:/Documents and Settings/acolling.PUBLICISGROUPUK/Desktop/matrix/setup/default.xml");
+		 .loadMatrixFile("C:/led/default.xml");
 		if (tmpResult.equals("")) {
 			// System.out.println("File Loaded.");
 			return;
@@ -150,9 +150,13 @@ public class LightWall extends BaseSwingFrameApp {
 		System.out.println("matrix Setup..");
 		matrix = new LEDMatrix(MATRIX_COLS, MATRIX_ROWS, 24, 24, 1);
 		loadDefaultMatrix();
-
+		try {
+			matrix.disconnectFromController();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		// -- TO CONNECT --->>>
-		// matrix.connectToController();
+		 matrix.connectToController();
 
 		this.setLocation(0, 0);
 		matrix.refresh();
