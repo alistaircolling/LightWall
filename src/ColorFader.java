@@ -24,7 +24,7 @@ public class ColorFader extends ExtraWindow {
 	public static final float GRADIENT_WIDTH = 1000;
 	public static final float GRADIENT_HEIGHT = 700;
 	private static final int MIN_LINES = 3;
-	private static final int MAX_LINES = 5000;
+	private static final int MAX_LINES = 6;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -34,7 +34,7 @@ public class ColorFader extends ExtraWindow {
 	private double currColIndex;
 	private ColoredLine newColor;
 	private double moveDir = .1f;
-	private float chanceOfNewLine = 50;// how often a new line is created
+	private float chanceOfNewLine = 400;// how often a new line is created
 	private ArrayList<ColoredLine> lines;
 	private int maxBounces = 5;
 	private PImage lastScreen;
@@ -59,6 +59,8 @@ public class ColorFader extends ExtraWindow {
 		colorList = KNColors.getPallete();
 			
 			addNewLine();
+			addNewLine();
+			addNewLine();
 	}
 
 	public void draw() {
@@ -75,7 +77,7 @@ public class ColorFader extends ExtraWindow {
 		//iterate thru all lines (particles actually)
 		
 		 // draw all particles
-		  for(Iterator i=lines.iterator(); i.hasNext();) {
+		/*  for(Iterator i=lines.iterator(); i.hasNext();) {
 			  ColoredLine line = (ColoredLine) i.next();
 			  
 		    // selected particle in cyan, all others in black
@@ -84,16 +86,16 @@ public class ColorFader extends ExtraWindow {
 		    line.particle.update();
 		    ellipse(line.particle.x,line.particle.y,10,10);
 		  }
-		
-		/*if (lines.size() > 0) {
+		*/
+		if (lines.size() > 0) {
 
 			// iterate thru lines and add them to the gradient
 			for (int i = 0; i < lines.size(); i++) {
 				ColoredLine line = lines.get(i);
 				
-				 * // code for just drawing lines stroke(line.color.toARGB());
-				 * // shift 5 left line(line.currentPos.x - 5, 0,
-				 * line.currentPos.x - 5, ColorFader.GRADIENT_HEIGHT);
+				 // code for just drawing lines stroke(line.color.toARGB());
+				  // shift 5 left line(line.currentPos.x - 5, 0,
+				 // line.currentPos.x - 5, ColorFader.GRADIENT_HEIGHT);
 				 
 				// check we havent already added a line here
 				if (!addedNums.contains((int) line.currentPos.x)) {
@@ -135,7 +137,7 @@ public class ColorFader extends ExtraWindow {
 		} else {
 			System.out.println(" no lines");
 		}
-*/
+
 	//	updateLines();
 		int random = (int) random(0, chanceOfNewLine);
 		if (random == 1) {
@@ -143,9 +145,9 @@ public class ColorFader extends ExtraWindow {
 			addNewLine();
 		}
 
-		lastScreen = get();
+	/*	lastScreen = get();
 		fill(100,100,100,30);
-		rect(0,0,1000,700);
+		rect(0,0,1000,700);*/
 
 	}
 

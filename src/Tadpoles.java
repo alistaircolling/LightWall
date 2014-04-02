@@ -21,10 +21,10 @@ public class Tadpoles extends ExtraWindow {
 	public static final float CHANCE_OF_LOTS = 100;
 	private static final float MAX_MANY_BOUNCES = 100;
 	// the gradient should be somewhat wider than the screen
-	public static final float GRADIENT_WIDTH = 1000;
-	public static final float GRADIENT_HEIGHT = 700;
+	public static final float GRADIENT_WIDTH = 300;
+	public static final float GRADIENT_HEIGHT = 300;
 	private static final int MIN_LINES = 3;
-	private static final int MAX_LINES = 5000;
+	private static final int MAX_LINES = 30;
 	private int counter = 0;
 	private ColorList colorList;
 	private double maxSpeed = 1;
@@ -49,7 +49,7 @@ public class Tadpoles extends ExtraWindow {
 	public void setup() {
 
 		physics = new VerletPhysics2D();
-		physics.setWorldBounds(new Rect(0, 0, 1000, 700));
+		physics.setWorldBounds(new Rect(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT));
 
 		smooth();
 		lines = new ArrayList<ColoredLine>();
@@ -73,7 +73,8 @@ public class Tadpoles extends ExtraWindow {
 		grad.setInterpolator(new CosineInterpolation());
 		
 		//iterate thru all lines (particles actually)
-		
+		pushMatrix();
+		translate(0-(GRADIENT_WIDTH *.5f), 0-(GRADIENT_HEIGHT*.5f));
 		 // draw all particles
 		  for(Iterator i=lines.iterator(); i.hasNext();) {
 			  ColoredLine line = (ColoredLine) i.next();
@@ -84,6 +85,7 @@ public class Tadpoles extends ExtraWindow {
 		    line.particle.update();
 		    ellipse(line.particle.x,line.particle.y,10,10);
 		  }
+		  popMatrix();
 		
 		/*if (lines.size() > 0) {
 
@@ -144,7 +146,7 @@ public class Tadpoles extends ExtraWindow {
 		}
 
 		lastScreen = get();
-		fill(100,100,100,30);
+		fill(100,100,100,5);
 		rect(0,0,1000,700);
 
 	}
