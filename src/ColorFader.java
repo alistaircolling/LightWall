@@ -34,7 +34,7 @@ public class ColorFader extends ExtraWindow {
 	private double currColIndex;
 	private ColoredLine newColor;
 	private double moveDir = .1f;
-	private float chanceOfNewLine = 400;// how often a new line is created
+	private float chanceOfNewLine = 4;//00;// how often a new line is createdwas 400
 	private ArrayList<ColoredLine> lines;
 	private int maxBounces = 5;
 	private PImage lastScreen;
@@ -106,7 +106,9 @@ public class ColorFader extends ExtraWindow {
 
 			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
 			// target middle of grad
-			for (int i = 0; i < 1000; i++) {
+			//make it run
+			int middleStart = (int) ((GRADIENT_WIDTH*.5f)-20);
+			for (int i = middleStart; i < middleStart+40; i++) {
 
 				float ratio = 1;
 
@@ -131,7 +133,7 @@ public class ColorFader extends ExtraWindow {
 
 				stroke(targetCol.toARGB());
 				// stroke(red, green, blue);
-				line(i, 0, i, GRADIENT_HEIGHT);
+				line(i-middleStart, 0, i-middleStart, GRADIENT_HEIGHT);
 			}
 
 		} else {
@@ -183,7 +185,7 @@ public class ColorFader extends ExtraWindow {
 		line.vector = Vec2D.randomVector();
 		
 		
-		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
+		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(GRADIENT_WIDTH));
 		line.particle.add(ranVect.scale(50));//particle speed can add var
 		physics.addBehavior(new AttractionBehavior(line.particle, 100, -0.1f, 0.01f));
 		physics.addParticle(line.particle);

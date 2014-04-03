@@ -10,7 +10,7 @@ public class ColoredLine extends Object {
 	public int bounces;
 	public Vec2D currentPos;
 	public boolean removeMe;
-	private float howFast = .1f;
+	private float howFast = 10;//was .1f
 	public VerletParticle2D particle;
 
 	public ColoredLine(TColor random) {
