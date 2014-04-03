@@ -21,8 +21,8 @@ public class Tadpoles extends ExtraWindow {
 	public static final float CHANCE_OF_LOTS = 100;
 	private static final float MAX_MANY_BOUNCES = 100;
 	// the gradient should be somewhat wider than the screen
-	public static final float GRADIENT_WIDTH = 300;
-	public static final float GRADIENT_HEIGHT = 300;
+	public static final float GRADIENT_WIDTH = 1000;
+	public static final float GRADIENT_HEIGHT = 700;
 	private static final int MIN_LINES = 3;
 	private static final int MAX_LINES = 30;
 	private int counter = 0;
@@ -35,7 +35,7 @@ public class Tadpoles extends ExtraWindow {
 	private ColoredLine newColor;
 	private double moveDir = .1f;
 	private float chanceOfNewLine = 50;// how often a new line is created
-	private ArrayList<ColoredLine> lines;
+	private ArrayList<Tadpole> lines;
 	private int maxBounces = 5;
 	private PImage lastScreen;
 	private VerletPhysics2D physics;
@@ -52,93 +52,81 @@ public class Tadpoles extends ExtraWindow {
 		physics.setWorldBounds(new Rect(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT));
 
 		smooth();
-		lines = new ArrayList<ColoredLine>();
+		lines = new ArrayList<Tadpole>();
 		currColIndex = 0;
 		lastScreen = get();
 		System.out.println("COLOR FADE LAUNCHED");
 		colorList = KNColors.getPallete();
-			
-			addNewLine();
+
+		addNewLine();
 	}
 
 	public void draw() {
-//		background(255);
-		
-		physics.update();	
-		
+		// background(255);
+
+		physics.update();
+
 		ArrayList<Integer> addedNums = new ArrayList<Integer>();
 		// create the gradiemnt
 		grad = new ColorGradient();
 		// grad.setInterpolator(new DecimatedInterpolation(50));
 		grad.setInterpolator(new CosineInterpolation());
-		
-		//iterate thru all lines (particles actually)
+
+		// iterate thru all lines (particles actually)
 		pushMatrix();
-		translate(0-(GRADIENT_WIDTH *.5f), 0-(GRADIENT_HEIGHT*.5f));
-		 // draw all particles
-		  for(Iterator i=lines.iterator(); i.hasNext();) {
-			  ColoredLine line = (ColoredLine) i.next();
-			  
-		    // selected particle in cyan, all others in black
-			  noStroke();
-		    fill(line.color.toARGB());
-		    line.particle.update();
-		    ellipse(line.particle.x,line.particle.y,10,10);
-		  }
-		  popMatrix();
-		
-		/*if (lines.size() > 0) {
+	//	translate(0 - (GRADIENT_WIDTH * .5f), 0 - (GRADIENT_HEIGHT * .5f));
+		// draw all particles
+		for (Iterator i = lines.iterator(); i.hasNext();) {
+			Tadpole line = (Tadpole) i.next();
 
-			// iterate thru lines and add them to the gradient
-			for (int i = 0; i < lines.size(); i++) {
-				ColoredLine line = lines.get(i);
-				
-				 * // code for just drawing lines stroke(line.color.toARGB());
-				 * // shift 5 left line(line.currentPos.x - 5, 0,
-				 * line.currentPos.x - 5, ColorFader.GRADIENT_HEIGHT);
-				 
-				// check we havent already added a line here
-				if (!addedNums.contains((int) line.currentPos.x)) {
-					grad.addColorAt(line.currentPos.x, line.color);
-					addedNums.add((int) line.currentPos.x);
-				}
-			}
-
-			listToDraw = grad.calcGradient(0, 1000);// 5 extra each side
-			// target middle of grad
-			for (int i = 0; i < 1000; i++) {
-
-				float ratio = 1;
-
-				TColor targetCol = listToDraw.get(i);
-				int lastCol = lastScreen.get(i, 0);
-				TColor tLastCol = TColor.newARGB(lastCol);
-
-				float lastRed = tLastCol.red();
-				float lastGreen = tLastCol.green();
-				float lastBlue = tLastCol.blue();
-
-				float newRed = targetCol.red();
-				float newGreen = targetCol.green();
-				float newBlue = targetCol.blue();
-
-				int red = (int) Math.abs((ratio * newRed)
-						+ ((1 - ratio) * lastRed));
-				int green = (int) Math.abs((ratio * newGreen)
-						+ ((1 - ratio) * lastGreen));
-				int blue = (int) Math.abs((ratio * newBlue)
-						+ ((1 - ratio) * lastBlue));
-
-				stroke(targetCol.toARGB());
-				// stroke(red, green, blue);
-				line(i, 0, i, GRADIENT_HEIGHT);
-			}
-
-		} else {
-			System.out.println(" no lines");
+			// selected particle in cyan, all others in black
+			noStroke();
+			fill(line.color.toARGB());
+			line.particle.update();
+			ellipse(line.particle.x, line.particle.y, line.size, line.size);
 		}
-*/
-	//	updateLines();
+		popMatrix();
+
+		/*
+		 * if (lines.size() > 0) {
+		 * 
+		 * // iterate thru lines and add them to the gradient for (int i = 0; i
+		 * < lines.size(); i++) { ColoredLine line = lines.get(i);
+		 * 
+		 * // code for just drawing lines stroke(line.color.toARGB()); // shift
+		 * 5 left line(line.currentPos.x - 5, 0, line.currentPos.x - 5,
+		 * ColorFader.GRADIENT_HEIGHT);
+		 * 
+		 * // check we havent already added a line here if
+		 * (!addedNums.contains((int) line.currentPos.x)) {
+		 * grad.addColorAt(line.currentPos.x, line.color); addedNums.add((int)
+		 * line.currentPos.x); } }
+		 * 
+		 * listToDraw = grad.calcGradient(0, 1000);// 5 extra each side //
+		 * target middle of grad for (int i = 0; i < 1000; i++) {
+		 * 
+		 * float ratio = 1;
+		 * 
+		 * TColor targetCol = listToDraw.get(i); int lastCol = lastScreen.get(i,
+		 * 0); TColor tLastCol = TColor.newARGB(lastCol);
+		 * 
+		 * float lastRed = tLastCol.red(); float lastGreen = tLastCol.green();
+		 * float lastBlue = tLastCol.blue();
+		 * 
+		 * float newRed = targetCol.red(); float newGreen = targetCol.green();
+		 * float newBlue = targetCol.blue();
+		 * 
+		 * int red = (int) Math.abs((ratio * newRed) + ((1 - ratio) * lastRed));
+		 * int green = (int) Math.abs((ratio * newGreen) + ((1 - ratio) *
+		 * lastGreen)); int blue = (int) Math.abs((ratio * newBlue) + ((1 -
+		 * ratio) * lastBlue));
+		 * 
+		 * stroke(targetCol.toARGB()); // stroke(red, green, blue); line(i, 0,
+		 * i, GRADIENT_HEIGHT); }
+		 * 
+		 * } else { System.out.println(" no lines"); }
+		 */
+		// updateLines();
 		int random = (int) random(0, chanceOfNewLine);
 		if (random == 1) {
 			System.out.println("new line!");
@@ -146,8 +134,8 @@ public class Tadpoles extends ExtraWindow {
 		}
 
 		lastScreen = get();
-		fill(100,100,100,5);
-		rect(0,0,1000,700);
+		fill(100, 100, 100, 5);
+		rect(0, 0, 1000, 700);
 
 	}
 
@@ -165,30 +153,27 @@ public class Tadpoles extends ExtraWindow {
 			addNewLine();
 		}
 
-		if (lines.size()>MAX_LINES){
+		if (lines.size() > MAX_LINES) {
 			lines.remove(0);
 		}
-		
-		
+
 	}
 
 	private void addNewLine() {
-			
+
 		// add color
-		ColoredLine line = new ColoredLine(colorList.getRandom());
-		
-		
+		Tadpole line = new Tadpole(colorList.getRandom());
+
 		// add vector that is -1 to +1
 		Vec2D ranVect = (Vec2D.randomVector().scale(2)).sub(new Vec2D(1, 1));
 		line.vector = Vec2D.randomVector();
-		
-		
+
 		line.particle = new VerletParticle2D(Vec2D.randomVector().scale(1000));
-		line.particle.add(ranVect.scale(50));//particle speed can add var
-		physics.addBehavior(new AttractionBehavior(line.particle, 100, -0.1f, 0.01f));
+		line.particle.add(ranVect.scale(50));// particle speed can add var
+		physics.addBehavior(new AttractionBehavior(line.particle, 100, -0.1f,
+				0.01f));
 		physics.addParticle(line.particle);
-		
-		
+
 		System.out.println("VECTOR:" + line.vector.toString());
 		// add start position - opposite to vector
 		// if moving right to left put at the right
