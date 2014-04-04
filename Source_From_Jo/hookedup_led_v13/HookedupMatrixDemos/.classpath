@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="C:/java/libs/RxTx/RXTXcomm.jar"/>
+	<classpathentry kind="lib" path="C:/proc/processing-1.5.1/lib/core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/minim-spi.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="C:/Users/JFrancis/Documents/Processing/libraries/minim/library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="C:/java/libs/hookedup.com/v13/hookedup_processing.jar"/>
+	<classpathentry kind="lib" path="C:/java/libs/swt/swt.jar"/>
+	<classpathentry kind="lib" path="C:/java/libs/hookedup.com/v13/hookedup_led.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
